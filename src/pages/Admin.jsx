@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Navigate } from 'react-router-dom'
 import { Lock, LogOut, Download, Trash2, Search, Calendar, Mail, Tag, DollarSign, ExternalLink } from 'lucide-react'
 
 const SEED_RECORDS = [
@@ -39,6 +40,12 @@ const SEED_RECORDS = [
 ]
 
 export default function Admin() {
+  const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+
+  if (!isLocal) {
+    return <Navigate to="/" replace />
+  }
+
   const [password, setPassword] = useState('')
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState('')
