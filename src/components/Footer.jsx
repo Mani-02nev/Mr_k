@@ -48,7 +48,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bot">
-          <p>© 2026 Mr.K · Solo Founder Company · Not a Pvt Ltd or OPC · Founded by Karuppasamy M, Tamil Nadu, India</p>
+          <p>© 2026 Mr.K · Solo Founder Company · Founded by Karuppasamy M, Tamil Nadu, India</p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', gap: '8px' }}>
               <a href="https://www.linkedin.com/in/karuppasamy-m02/" target="_blank" rel="noreferrer" className="footer-social-icon" aria-label="LinkedIn">
