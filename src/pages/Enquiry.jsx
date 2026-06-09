@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Send, CheckCircle2, ArrowRight } from 'lucide-react'
+import { supabase } from '../supabase'
 
 const SEED_RECORDS = [
   {
@@ -66,53 +67,23 @@ export default function Enquiry() {
       timestamp: Date.now()
     }
     
-    // Save locally first for instant feedback
-    const saved = localStorage.getItem('mrk_enquiries')
-    const enquiries = saved ? JSON.parse(saved) : [...SEED_RECORDS]
-    enquiries.unshift(newEnquiry)
-    localStorage.setItem('mrk_enquiries', JSON.stringify(enquiries))
-    
-    setSuccess(true)
-    setForm({
-      name: '',
-      email: '',
-      whatsapp: '',
-      title: '',
-      type: 'AI Agent & Automation (LLM, Chatbots, Workflows)',
-      budget: 'Micro / Small Project (₹4,000 - ₹15,000 INR)',
-      description: '',
-    })
-
-    // Asynchronous background database synchronization
     try {
-      const res = await fetch('https://kvdb.io/R2MYrnnChcvHjyfYGfy4BV/enquiries')
-      let remoteList = []
-      if (res.ok) {
-        remoteList = await res.json()
-      }
-      
-      if (Array.isArray(remoteList)) {
-        // Merge list to ensure multiple users don't overwrite each other
-        const mergedMap = new Map()
-        remoteList.forEach(item => mergedMap.set(item.id, item))
-        enquiries.forEach(item => mergedMap.set(item.id, item))
-        
-        const mergedList = Array.from(mergedMap.values()).sort((a, b) => b.timestamp - a.timestamp)
-        
-        await fetch('https://kvdb.io/R2MYrnnChcvHjyfYGfy4BV/enquiries', {
-          method: 'POST',
-          body: JSON.stringify(mergedList)
-        })
-        
-        localStorage.setItem('mrk_enquiries', JSON.stringify(mergedList))
-      } else {
-        await fetch('https://kvdb.io/R2MYrnnChcvHjyfYGfy4BV/enquiries', {
-          method: 'POST',
-          body: JSON.stringify(enquiries)
-        })
-      }
+      const { error } = await supabase.from('enquiries').insert([newEnquiry])
+      if (error) throw error
+
+      setSuccess(true)
+      setForm({
+        name: '',
+        email: '',
+        whatsapp: '',
+        title: '',
+        type: 'AI Agent & Automation (LLM, Chatbots, Workflows)',
+        budget: 'Micro / Small Project (₹4,000 - ₹15,000 INR)',
+        description: '',
+      })
     } catch (err) {
-      console.warn('Vercel sync error (saved locally):', err)
+      console.error('Error saving to Supabase:', err)
+      alert('Failed to submit project request. Please check your network connection and try again.')
     }
   }
 

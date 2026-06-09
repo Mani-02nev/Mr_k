@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Lock, LogOut, Download, Trash2, Search, Calendar, Mail, Tag, DollarSign, ExternalLink } from 'lucide-react'
+import { supabase } from '../supabase'
 
 const SEED_RECORDS = [
   {
@@ -46,37 +47,36 @@ export default function Admin() {
   const [search, setSearch] = useState('')
   const [syncStatus, setSyncStatus] = useState('checking') // 'checking' | 'online' | 'local'
 
-  // Load records from localStorage and sync with remote database
+  // Load records from Supabase with localStorage fallback
   const loadRecords = async () => {
-    // 1. First load local state so dashboard is populated instantly
-    const saved = localStorage.getItem('mrk_enquiries')
-    let localRecords = saved ? JSON.parse(saved) : [...SEED_RECORDS]
-    setRecords(localRecords)
-
-    // 2. Fetch and merge from Vercel cloud database (KVdb.io)
+    setSyncStatus('checking')
     try {
-      setSyncStatus('checking')
-      const res = await fetch('https://kvdb.io/R2MYrnnChcvHjyfYGfy4BV/enquiries')
+      const { data, error } = await supabase
+        .from('enquiries')
+        .select('*')
+        .order('timestamp', { ascending: false })
       
-      if (res.ok) {
-        const remoteRecords = await res.json()
-        if (Array.isArray(remoteRecords)) {
-          // Merge lists by unique id (preserving new items)
-          const mergedMap = new Map()
-          remoteRecords.forEach(item => mergedMap.set(item.id, item))
-          localRecords.forEach(item => mergedMap.set(item.id, item))
-          
-          const mergedList = Array.from(mergedMap.values()).sort((a, b) => b.timestamp - a.timestamp)
-          
-          localStorage.setItem('mrk_enquiries', JSON.stringify(mergedList))
-          setRecords(mergedList)
-          setSyncStatus('online')
-          return
-        }
+      if (error) throw error
+
+      if (data) {
+        setRecords(data)
+        setSyncStatus('online')
+      } else {
+        setRecords([])
+        setSyncStatus('online')
       }
-      setSyncStatus('local')
     } catch (err) {
-      console.warn('Vercel sync fetch error:', err)
+      console.warn('Supabase fetch error, falling back to local records:', err)
+      const saved = localStorage.getItem('mrk_enquiries')
+      let localRecords = saved ? JSON.parse(saved) : [...SEED_RECORDS]
+      
+      // Ensure seed records have fallback numeric timestamps for sorting
+      const seededWithTimestamps = localRecords.map((item, idx) => ({
+        ...item,
+        timestamp: item.timestamp || (Date.now() - idx * 3600000)
+      }))
+      
+      setRecords(seededWithTimestamps)
       setSyncStatus('local')
     }
   }
@@ -111,15 +111,14 @@ export default function Admin() {
   // Clear records
   const handleClear = async () => {
     if (window.confirm('Are you sure you want to clear all records? This action cannot be undone.')) {
-      localStorage.removeItem('mrk_enquiries')
-      setRecords([])
       try {
-        await fetch('https://kvdb.io/R2MYrnnChcvHjyfYGfy4BV/enquiries', {
-          method: 'POST',
-          body: JSON.stringify([])
-        })
+        const { error } = await supabase.from('enquiries').delete().neq('id', '')
+        if (error) throw error
+        setRecords([])
+        localStorage.removeItem('mrk_enquiries')
       } catch (e) {
-        console.warn('Vercel remote clear failed:', e)
+        console.error('Supabase clear failed:', e)
+        alert('Failed to clear records from server.')
       }
     }
   }
