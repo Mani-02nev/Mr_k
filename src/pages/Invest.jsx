@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import SEO from '../components/SEO'
 import {
   Send, CheckCircle2, ArrowRight, Coins, Percent, TrendingUp, Handshake,
   FileText, Terminal, Scale, BarChart2, PenTool
@@ -153,6 +154,7 @@ export default function Invest() {
 
   return (
     <div className="pt-nav" style={{ minHeight: '100vh', background: 'var(--ink-02)' }}>
+      <SEO title="Investment & Partnerships" description="Partner with Mr.K. Invest in individual AI products or the general software ecosystem and participate in net subscription profit sharing returns." />
       {/* ══ HERO BANNER ══ */}
       <section className="section" style={{ paddingBottom: 40, paddingTop: 80 }}>
         <div className="wrap-sm" style={{ textAlign: 'center' }}>

@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion'
+import SEO from '../components/SEO'
 
 export default function Cookies() {
   return (
     <div className="legal-page pt-nav">
+      <SEO title="Cookie Policy" description="Read the Cookie Policy of Mr.K AI Product Company. Learn how cookies and local storage are utilized to improve user experience." />
       <div className="wrap-sm">
         <motion.div
           className="legal-hero"

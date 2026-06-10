@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Send, CheckCircle2, ArrowRight } from 'lucide-react'
+import SEO from '../components/SEO'
 import { supabase } from '../supabase'
 
 const SEED_RECORDS = [
@@ -89,6 +90,7 @@ export default function Enquiry() {
 
   return (
     <div className="legal-page pt-nav" style={{ minHeight: 'calc(100vh - 150px)', display: 'flex', alignItems: 'center' }}>
+      <SEO title="Project Enquiry" description="Describe your software project, web application, custom automation, or AI Agent requirements to get a custom development proposal." />
       <div className="wrap-sm" style={{ width: '100%' }}>
         <AnimatePresence mode="wait">
           {!success ? (

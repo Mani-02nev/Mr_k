@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion'
+import SEO from '../components/SEO'
 
 export default function Terms() {
   return (
     <div className="legal-page pt-nav">
+      <SEO title="Terms of Service" description="Read the Terms of Service for Mr.K AI Product Company. Understand terms of use, limitations, and user responsibilities." />
       <div className="wrap-sm">
         <motion.div
           className="legal-hero"

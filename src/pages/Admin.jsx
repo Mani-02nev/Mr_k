@@ -64,13 +64,41 @@ const SEED_INVESTMENTS = [
   }
 ]
 
+const SEED_HIRING = [
+  {
+    id: 'hire-1',
+    date: '10 Jun 2026, 02:00 PM',
+    name: 'Ganesh Kumar',
+    email: 'ganesh.kumar@outlook.com',
+    whatsapp: '+91 94444 55555',
+    role: 'Product Director',
+    portfolio: 'https://linkedin.com/in/ganesh-kumar',
+    education: 'B.E.',
+    resume: 'data:text/plain;base64,U2FtcGxlIFJlc3VtZSBDb250ZW50IEdhbmVzaCBJRA==',
+    description: '5+ years leading software product cycles. Focused on WFH task-based role to deliver high-quality design specs and feature roadmaps.'
+  },
+  {
+    id: 'hire-2',
+    date: '10 Jun 2026, 04:30 PM',
+    name: 'Ananya Rao',
+    email: 'ananya.rao@gmail.com',
+    whatsapp: '+91 98888 77777',
+    role: 'Editor / Content Strategist',
+    portfolio: 'https://ananya.medium.com',
+    education: 'Diploma',
+    resume: 'data:text/plain;base64,U2FtcGxlIFJlc3VtZSBDb250ZW50IEFuYW55YSBJRA==',
+    description: 'Content editor specializing in technical writing for AI developer tools. Excited about task-based pay model.'
+  }
+]
+
 export default function Admin() {
   const [password, setPassword] = useState('')
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState('')
   const [records, setRecords] = useState([])
   const [investments, setInvestments] = useState([])
-  const [activeTab, setActiveTab] = useState('projects') // 'projects' | 'investments'
+  const [hiring, setHiring] = useState([])
+  const [activeTab, setActiveTab] = useState('projects') // 'projects' | 'hiring' | 'investments'
   const [search, setSearch] = useState('')
   const [syncStatus, setSyncStatus] = useState('checking') // 'checking' | 'online' | 'local'
 
@@ -94,8 +122,17 @@ export default function Admin() {
 
       if (investmentsError) throw investmentsError
 
+      // 3. Fetch hiring
+      const { data: hiringData, error: hiringError } = await supabase
+        .from('hiring')
+        .select('*')
+        .order('timestamp', { ascending: false })
+
+      if (hiringError) throw hiringError
+
       setRecords(enquiriesData || [])
       setInvestments(investmentsData || [])
+      setHiring(hiringData || [])
       setSyncStatus('online')
     } catch (err) {
       console.warn('Supabase fetch error, falling back to local records:', err)
@@ -117,6 +154,15 @@ export default function Admin() {
         timestamp: item.timestamp || (Date.now() - idx * 3600000)
       }))
       setInvestments(investmentsWithTimestamps)
+
+      // Load hiring fallback
+      const savedHiring = localStorage.getItem('mrk_hiring')
+      let localHiring = savedHiring ? JSON.parse(savedHiring) : [...SEED_HIRING]
+      const hiringWithTimestamps = localHiring.map((item, idx) => ({
+        ...item,
+        timestamp: item.timestamp || (Date.now() - idx * 3600000)
+      }))
+      setHiring(hiringWithTimestamps)
 
       setSyncStatus('local')
     }
@@ -151,7 +197,12 @@ export default function Admin() {
   // Clear records for active tab
   const handleClear = async () => {
     const isProjects = activeTab === 'projects'
-    const tabName = isProjects ? 'project requests' : 'investment proposals'
+    const isHiring = activeTab === 'hiring'
+    const tabName = isProjects 
+      ? 'project requests' 
+      : isHiring 
+      ? 'hiring applications' 
+      : 'investment proposals'
     
     if (window.confirm(`Are you sure you want to clear all ${tabName}? This action cannot be undone.`)) {
       try {
@@ -160,6 +211,11 @@ export default function Admin() {
           if (error) throw error
           setRecords([])
           localStorage.removeItem('mrk_enquiries')
+        } else if (isHiring) {
+          const { error } = await supabase.from('hiring').delete().neq('id', '')
+          if (error) throw error
+          setHiring([])
+          localStorage.removeItem('mrk_hiring')
         } else {
           const { error } = await supabase.from('investments').delete().neq('id', '')
           if (error) throw error
@@ -176,7 +232,8 @@ export default function Admin() {
   // Generate and download CSV
   const handleDownloadCSV = () => {
     const isProjects = activeTab === 'projects'
-    const targetList = isProjects ? records : investments
+    const isHiring = activeTab === 'hiring'
+    const targetList = isProjects ? records : isHiring ? hiring : investments
 
     if (targetList.length === 0) {
       alert('No records to download')
@@ -203,6 +260,24 @@ export default function Admin() {
         ]
         csvRows.push(row.join(','))
       })
+    } else if (isHiring) {
+      headers = ['id', 'date', 'name', 'email', 'whatsapp', 'role', 'portfolio', 'education', 'resume', 'description']
+      csvRows.push(headers.join(','))
+      targetList.forEach(r => {
+        const row = [
+          `"${r.id || ''}"`,
+          `"${r.date || ''}"`,
+          `"${(r.name || '').replace(/"/g, '""')}"`,
+          `"${(r.email || '').replace(/"/g, '""')}"`,
+          `"${(r.whatsapp || '').replace(/"/g, '""')}"`,
+          `"${(r.role || '').replace(/"/g, '""')}"`,
+          `"${(r.portfolio || '').replace(/"/g, '""')}"`,
+          `"${(r.education || '').replace(/"/g, '""')}"`,
+          `"${(r.resume || '').replace(/"/g, '""')}"`,
+          `"${(r.description || '').replace(/"/g, '""')}"`
+        ]
+        csvRows.push(row.join(','))
+      })
     } else {
       headers = ['id', 'date', 'name', 'company', 'email', 'whatsapp', 'amount', 'target_product', 'notes']
       csvRows.push(headers.join(','))
@@ -225,7 +300,12 @@ export default function Admin() {
     const csvContent = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvRows.join('\n'))
     const link = document.createElement('a')
     link.setAttribute('href', csvContent)
-    link.setAttribute('download', isProjects ? 'projects.csv' : 'investments.csv')
+    
+    let filename = 'investments.csv'
+    if (isProjects) filename = 'projects.csv'
+    if (isHiring) filename = 'hiring.csv'
+    
+    link.setAttribute('download', filename)
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
@@ -237,6 +317,13 @@ export default function Admin() {
     (r.email || '').toLowerCase().includes(search.toLowerCase()) ||
     (r.title || '').toLowerCase().includes(search.toLowerCase()) ||
     (r.type || '').toLowerCase().includes(search.toLowerCase())
+  )
+
+  const filteredHiring = hiring.filter(r => 
+    (r.name || '').toLowerCase().includes(search.toLowerCase()) ||
+    (r.email || '').toLowerCase().includes(search.toLowerCase()) ||
+    (r.role || '').toLowerCase().includes(search.toLowerCase()) ||
+    (r.description || '').toLowerCase().includes(search.toLowerCase())
   )
 
   const filteredInvestments = investments.filter(r => 
@@ -350,8 +437,8 @@ export default function Admin() {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16, marginBottom: 28 }}>
                 {[
                   { label: 'Project Enquiries', val: records.length },
+                  { label: 'Hiring Applications', val: hiring.length },
                   { label: 'Funding Offers', val: investments.length },
-                  { label: 'AI Products Selected', val: records.filter(r => (r.type || '').toLowerCase().includes('ai') || (r.type || '').toLowerCase().includes('bot')).length },
                   { label: 'Growth/Enterprise Capital', val: investments.filter(r => (r.amount || '').toLowerCase().includes('growth') || (r.amount || '').toLowerCase().includes('enterprise')).length }
                 ].map((s, i) => (
                   <div key={i} style={{ background: 'var(--white)', border: '1px solid var(--ink-08)', borderRadius: 'var(--r16)', padding: '20px 24px', boxShadow: 'var(--s1)' }}>
@@ -362,7 +449,7 @@ export default function Admin() {
               </div>
 
               {/* Tab Selector */}
-              <div style={{ display: 'flex', gap: 8, marginBottom: 20, borderBottom: '1px solid var(--ink-08)', paddingBottom: 12 }}>
+              <div style={{ display: 'flex', gap: 8, marginBottom: 20, borderBottom: '1px solid var(--ink-08)', paddingBottom: 12, flexWrap: 'wrap' }}>
                 <button
                   style={{
                     padding: '8px 16px',
@@ -378,6 +465,22 @@ export default function Admin() {
                 >
                   <Briefcase size={14} style={{ marginRight: 6, display: 'inline', verticalAlign: 'middle' }} />
                   Project Enquiries ({records.length})
+                </button>
+                <button
+                  style={{
+                    padding: '8px 16px',
+                    borderRadius: 'var(--r8)',
+                    fontSize: 14.5,
+                    fontWeight: 650,
+                    background: activeTab === 'hiring' ? 'var(--gold-mist)' : 'transparent',
+                    border: activeTab === 'hiring' ? '1px solid var(--gold-border)' : '1px solid transparent',
+                    color: activeTab === 'hiring' ? '#7A5500' : 'var(--ink-50)',
+                    cursor: 'pointer'
+                  }}
+                  onClick={() => { setActiveTab('hiring'); setSearch(''); }}
+                >
+                  <Briefcase size={14} style={{ marginRight: 6, display: 'inline', verticalAlign: 'middle' }} />
+                  Hiring Applications ({hiring.length})
                 </button>
                 <button
                   style={{
@@ -402,7 +505,13 @@ export default function Admin() {
                 <Search size={16} style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: 'var(--ink-15)' }} />
                 <input
                   type="text"
-                  placeholder={activeTab === 'projects' ? "Search inquiries by name, email, or project title..." : "Search investments by name, company, or target product..."}
+                  placeholder={
+                    activeTab === 'projects' 
+                      ? "Search inquiries by name, email, or project title..." 
+                      : activeTab === 'hiring'
+                      ? "Search applications by name, email, or details..."
+                      : "Search investments by name, company, or target product..."
+                  }
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   style={{
@@ -483,6 +592,104 @@ export default function Admin() {
                       <Search size={32} strokeWidth={1.5} style={{ color: 'var(--ink-15)', marginBottom: 12 }} />
                       <p style={{ fontSize: 15, fontWeight: 500 }}>No project requests found</p>
                       <p style={{ fontSize: 13, marginTop: 4 }}>Any submissions from the Request form will appear here.</p>
+                    </div>
+                  )
+                ) : activeTab === 'hiring' ? (
+                  /* ══ HIRING APPLICATIONS TABLE ══ */
+                  filteredHiring.length > 0 ? (
+                    <div style={{ overflowX: 'auto' }}>
+                      <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: 14 }}>
+                        <thead>
+                          <tr style={{ background: 'var(--ink-04)', borderBottom: '1px solid var(--ink-08)', color: 'var(--ink-50)' }}>
+                            <th style={{ padding: '16px 20px', fontWeight: 600 }}>Applicant / Role</th>
+                            <th style={{ padding: '16px 20px', fontWeight: 600 }}>Qualification & Resume</th>
+                            <th style={{ padding: '16px 20px', fontWeight: 600 }}>Contact Info</th>
+                            <th style={{ padding: '16px 20px', fontWeight: 600 }}>Date</th>
+                            <th style={{ padding: '16px 20px', fontWeight: 600 }}>Experience / Details</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {filteredHiring.map((r, i) => (
+                            <tr key={r.id || i} style={{ borderBottom: i === filteredHiring.length - 1 ? 'none' : '1px solid var(--ink-08)', verticalAlign: 'top' }}>
+                              <td style={{ padding: '20px' }}>
+                                <div style={{ fontWeight: 700, color: 'var(--ink)', fontSize: 14.5 }}>{r.name}</div>
+                                <span className="pill pill-gold" style={{ fontSize: 9.5, padding: '2px 8px', marginTop: 6 }}>{r.role}</span>
+                              </td>
+                              <td style={{ padding: '20px' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                                    <span style={{ fontSize: 12, color: 'var(--ink-30)', fontWeight: 600 }}>Edu:</span>
+                                    <span className="pill pill-neutral" style={{ fontSize: 11, padding: '2px 8px', textTransform: 'none', fontWeight: 650 }}>
+                                      {r.education || 'Diploma'}
+                                    </span>
+                                  </div>
+                                  {r.resume ? (
+                                    <div style={{ display: 'flex', gap: 6, marginTop: 2 }}>
+                                      <button 
+                                        onClick={() => {
+                                          const newTab = window.open()
+                                          if (newTab) {
+                                            newTab.document.write(
+                                              `<iframe src="${r.resume}" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>`
+                                            )
+                                          } else {
+                                            alert("Failed to open resume tab. Please allow popups.")
+                                          }
+                                        }}
+                                        className="btn btn-sm btn-gold" 
+                                        style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 11.5, height: 26, padding: '0 8px' }}
+                                      >
+                                        View
+                                      </button>
+                                      <a 
+                                        href={r.resume} 
+                                        download={`resume_${(r.name || 'candidate').replace(/\s+/g, '_')}.pdf`}
+                                        className="btn btn-sm btn-ghost" 
+                                        style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 11.5, height: 26, padding: '0 8px' }}
+                                      >
+                                        <Download size={11} /> Save
+                                      </a>
+                                    </div>
+                                  ) : (
+                                    <span style={{ fontSize: 12, color: 'var(--ink-15)' }}>No resume file</span>
+                                  )}
+                                </div>
+                              </td>
+                              <td style={{ padding: '20px' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                                  <a href={`mailto:${r.email}`} style={{ color: 'var(--blue)', fontSize: 13, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                                    <Mail size={11} /> {r.email}
+                                  </a>
+                                  {r.whatsapp && (
+                                    <a href={`https://wa.me/${r.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noreferrer" style={{ color: '#25D366', fontSize: 13, display: 'inline-flex', alignItems: 'center', gap: 4, fontWeight: 500 }}>
+                                      <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.73-1.455L0 24zm6.59-4.846c1.6.95 3.42 1.45 5.302 1.453 5.485.002 9.948-4.463 9.952-9.953.002-2.66-1.033-5.161-2.91-7.04-1.876-1.879-4.375-2.914-7.034-2.916-5.487 0-9.95 4.461-9.954 9.95-.001 1.88.497 3.719 1.442 5.31l-.243.89-.963 3.524 3.61-.947.886-.234zm11.353-7.53c-.305-.152-1.807-.892-2.086-.994-.279-.101-.483-.152-.686.152-.204.304-.787.994-.965 1.196-.177.203-.355.228-.66.076-.304-.152-1.285-.473-2.448-1.511-.906-.807-1.517-1.805-1.694-2.11-.178-.304-.019-.468.133-.62.137-.136.305-.355.457-.532.152-.177.203-.304.305-.507.102-.203.05-.38-.025-.532-.076-.152-.686-1.653-.94-2.261-.247-.595-.497-.514-.686-.524-.177-.008-.38-.01-.583-.01-.203 0-.533.076-.812.38-.28.304-1.066 1.039-1.066 2.535s1.09 2.94 1.243 3.143c.152.203 2.146 3.277 5.197 4.594.726.313 1.293.5 1.734.64.73.23 1.39.198 1.912.12.583-.087 1.807-.738 2.061-1.453.254-.716.254-1.33.178-1.457-.076-.127-.279-.203-.583-.355z"/></svg> {r.whatsapp}
+                                    </a>
+                                  )}
+                                  {r.portfolio && (
+                                    <a href={r.portfolio} target="_blank" rel="noreferrer" style={{ color: 'var(--blue)', fontSize: 13, display: 'inline-flex', alignItems: 'center', gap: 4, fontWeight: 500, marginTop: 2 }}>
+                                      <ExternalLink size={11} /> Portfolio Link <ArrowUpRight size={11} />
+                                    </a>
+                                  )}
+                                </div>
+                              </td>
+                              <td style={{ padding: '20px', color: 'var(--ink-30)', fontSize: 13, whiteSpace: 'nowrap' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                                  <Calendar size={12} /> {r.date}
+                                </div>
+                              </td>
+                              <td style={{ padding: '20px', color: 'var(--ink-50)', fontSize: 13, maxWidth: 300, lineHeight: 1.5 }}>
+                                <div style={{ whiteSpace: 'pre-wrap' }}>{r.description}</div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div style={{ padding: '64px 20px', textAlign: 'center', color: 'var(--ink-30)' }}>
+                      <Search size={32} strokeWidth={1.5} style={{ color: 'var(--ink-15)', marginBottom: 12 }} />
+                      <p style={{ fontSize: 15, fontWeight: 500 }}>No hiring applications found</p>
+                      <p style={{ fontSize: 13, marginTop: 4 }}>Submissions from the Hiring page form will show up here.</p>
                     </div>
                   )
                 ) : (

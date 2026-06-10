@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import SEO from '../components/SEO'
 import {
   ArrowUpRight, FileText, Terminal, Scale, BarChart2, PenTool,
   Building2, ShoppingBag, Factory, Lock, Globe2, CheckCircle2, Star
@@ -47,6 +48,7 @@ const productReviews = [
 export default function Products() {
   return (
     <div className="pt-nav">
+      <SEO title="Products & Work" description="Explore the live AI products and enterprise software solutions developed by Mr.K (Karuppasamy M). From ATS Resume Builder to factory automation tools." />
       {/* Header */}
       <div className="products-hero">
         <div className="wrap">

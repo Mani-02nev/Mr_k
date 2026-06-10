@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
+import SEO from '../components/SEO'
 import {
   ArrowRight, ArrowUpRight,
   FileText, Terminal, Scale, BarChart2, PenTool,
@@ -98,6 +99,7 @@ const ticker = ['KsCV Builder', 'Mr.K Agent IDE', 'Law Agent', 'View Once DA', '
 export default function Home() {
   return (
     <>
+      <SEO title="Build Smarter" description="Mr.K is a solo founder AI product company building intelligent, accessible, and purpose-driven tools: Resume Builder, Coding Agent, Law Agent, Data Analytics, and Document Editor." />
       {/* ══ HERO ══ */}
       <section className="hero">
         <div className="hero-canvas">
@@ -384,7 +386,7 @@ export default function Home() {
             <p className="cta-p">All products are free. Start today — no account required for most tools.</p>
             <div className="cta-btns">
               <NavLink to="/products" className="btn btn-gold btn-lg">View All Products <ArrowRight size={17} /></NavLink>
-              <NavLink to="/contact" className="btn btn-ghost-inv btn-lg">Get in Touch</NavLink>
+              <NavLink to="/hiring" className="btn btn-ghost-inv btn-lg">Join Our Team</NavLink>
             </div>
           </motion.div>
         </div>

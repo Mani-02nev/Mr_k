@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion'
+import SEO from '../components/SEO'
 
 export default function Privacy() {
   return (
     <div className="legal-page pt-nav">
+      <SEO title="Privacy Policy" description="Read the privacy policy of Mr.K AI Product Company. Learn how we collect, process, and protect your personal and session-based data." />
       <div className="wrap-sm">
         <motion.div
           className="legal-hero"

@@ -1,0 +1,16 @@
+{
+  "name": "Mr.K AI Product Company",
+  "short_name": "Mr.K",
+  "description": "Solo Founder AI Product Company. Building intelligent, purpose-driven tools for everyone.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A0A0A",
+  "theme_color": "#F0B429",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
