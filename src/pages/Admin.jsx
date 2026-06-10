@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Lock, LogOut, Download, Trash2, Search, Calendar, Mail, Tag, DollarSign, ExternalLink } from 'lucide-react'
+import { Lock, LogOut, Download, Trash2, Search, Calendar, Mail, Tag, DollarSign, ExternalLink, Briefcase, Coins, Landmark } from 'lucide-react'
 import { supabase } from '../supabase'
 
 const SEED_RECORDS = [
@@ -39,11 +39,38 @@ const SEED_RECORDS = [
   }
 ]
 
+const SEED_INVESTMENTS = [
+  {
+    id: 'inv-1',
+    date: '10 Jun 2026, 09:15 AM',
+    name: 'Rohan Sharma',
+    company: 'Capitalize Ventures',
+    email: 'rohan@capitalize.in',
+    whatsapp: '+91 99999 88888',
+    amount: 'Growth Funding (₹50,000 - ₹2,00,000 INR)',
+    target_product: 'KsCV Builder',
+    notes: 'Interested in funding the next major version of KsCV Builder. We can provide ₹1.5L in marketing capital for a 15% revenue share over 12 months.'
+  },
+  {
+    id: 'inv-2',
+    date: '10 Jun 2026, 11:45 AM',
+    name: 'Lin Xia',
+    company: 'Apex Tech Singapore',
+    email: 'lin.xia@apextech.sg',
+    whatsapp: '+65 8123 4567',
+    amount: 'Enterprise Scale (Above ₹2,00,000 INR)',
+    target_product: 'Mr.K Agent IDE',
+    notes: 'We want to fund the premium subscription tier of the Agent IDE. We are prepared to invest ₹5L to expedite custom Docker sandboxes development for a 20% equity/profit sharing model.'
+  }
+]
+
 export default function Admin() {
   const [password, setPassword] = useState('')
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [error, setError] = useState('')
   const [records, setRecords] = useState([])
+  const [investments, setInvestments] = useState([])
+  const [activeTab, setActiveTab] = useState('projects') // 'projects' | 'investments'
   const [search, setSearch] = useState('')
   const [syncStatus, setSyncStatus] = useState('checking') // 'checking' | 'online' | 'local'
 
@@ -51,38 +78,51 @@ export default function Admin() {
   const loadRecords = async () => {
     setSyncStatus('checking')
     try {
-      const { data, error } = await supabase
+      // 1. Fetch enquiries
+      const { data: enquiriesData, error: enquiriesError } = await supabase
         .from('enquiries')
         .select('*')
         .order('timestamp', { ascending: false })
       
-      if (error) throw error
+      if (enquiriesError) throw enquiriesError
 
-      if (data) {
-        setRecords(data)
-        setSyncStatus('online')
-      } else {
-        setRecords([])
-        setSyncStatus('online')
-      }
+      // 2. Fetch investments
+      const { data: investmentsData, error: investmentsError } = await supabase
+        .from('investments')
+        .select('*')
+        .order('timestamp', { ascending: false })
+
+      if (investmentsError) throw investmentsError
+
+      setRecords(enquiriesData || [])
+      setInvestments(investmentsData || [])
+      setSyncStatus('online')
     } catch (err) {
       console.warn('Supabase fetch error, falling back to local records:', err)
-      const saved = localStorage.getItem('mrk_enquiries')
-      let localRecords = saved ? JSON.parse(saved) : [...SEED_RECORDS]
       
-      // Ensure seed records have fallback numeric timestamps for sorting
-      const seededWithTimestamps = localRecords.map((item, idx) => ({
+      // Load enquiries fallback
+      const savedEnquiries = localStorage.getItem('mrk_enquiries')
+      let localEnquiries = savedEnquiries ? JSON.parse(savedEnquiries) : [...SEED_RECORDS]
+      const enquiriesWithTimestamps = localEnquiries.map((item, idx) => ({
         ...item,
         timestamp: item.timestamp || (Date.now() - idx * 3600000)
       }))
-      
-      setRecords(seededWithTimestamps)
+      setRecords(enquiriesWithTimestamps)
+
+      // Load investments fallback
+      const savedInvestments = localStorage.getItem('mrk_investments')
+      let localInvestments = savedInvestments ? JSON.parse(savedInvestments) : [...SEED_INVESTMENTS]
+      const investmentsWithTimestamps = localInvestments.map((item, idx) => ({
+        ...item,
+        timestamp: item.timestamp || (Date.now() - idx * 3600000)
+      }))
+      setInvestments(investmentsWithTimestamps)
+
       setSyncStatus('local')
     }
   }
 
   useEffect(() => {
-    // Check if session login is stored
     const loggedIn = sessionStorage.getItem('mrk_admin_auth') === 'true'
     if (loggedIn) {
       setIsAuthorized(true)
@@ -108,14 +148,24 @@ export default function Admin() {
     sessionStorage.removeItem('mrk_admin_auth')
   }
 
-  // Clear records
+  // Clear records for active tab
   const handleClear = async () => {
-    if (window.confirm('Are you sure you want to clear all records? This action cannot be undone.')) {
+    const isProjects = activeTab === 'projects'
+    const tabName = isProjects ? 'project requests' : 'investment proposals'
+    
+    if (window.confirm(`Are you sure you want to clear all ${tabName}? This action cannot be undone.`)) {
       try {
-        const { error } = await supabase.from('enquiries').delete().neq('id', '')
-        if (error) throw error
-        setRecords([])
-        localStorage.removeItem('mrk_enquiries')
+        if (isProjects) {
+          const { error } = await supabase.from('enquiries').delete().neq('id', '')
+          if (error) throw error
+          setRecords([])
+          localStorage.removeItem('mrk_enquiries')
+        } else {
+          const { error } = await supabase.from('investments').delete().neq('id', '')
+          if (error) throw error
+          setInvestments([])
+          localStorage.removeItem('mrk_investments')
+        }
       } catch (e) {
         console.error('Supabase clear failed:', e)
         alert('Failed to clear records from server.')
@@ -125,33 +175,57 @@ export default function Admin() {
 
   // Generate and download CSV
   const handleDownloadCSV = () => {
-    if (records.length === 0) {
+    const isProjects = activeTab === 'projects'
+    const targetList = isProjects ? records : investments
+
+    if (targetList.length === 0) {
       alert('No records to download')
       return
     }
 
-    const headers = ['id', 'date', 'name', 'email', 'whatsapp', 'title', 'type', 'budget', 'description']
-    const csvRows = [headers.join(',')]
+    let headers = []
+    let csvRows = []
 
-    records.forEach(r => {
-      const row = [
-        `"${r.id || ''}"`,
-        `"${r.date || ''}"`,
-        `"${(r.name || '').replace(/"/g, '""')}"`,
-        `"${(r.email || '').replace(/"/g, '""')}"`,
-        `"${(r.whatsapp || '').replace(/"/g, '""')}"`,
-        `"${(r.title || '').replace(/"/g, '""')}"`,
-        `"${(r.type || '').replace(/"/g, '""')}"`,
-        `"${(r.budget || '').replace(/"/g, '""')}"`,
-        `"${(r.description || '').replace(/"/g, '""')}"`
-      ]
-      csvRows.push(row.join(','))
-    })
+    if (isProjects) {
+      headers = ['id', 'date', 'name', 'email', 'whatsapp', 'title', 'type', 'budget', 'description']
+      csvRows.push(headers.join(','))
+      targetList.forEach(r => {
+        const row = [
+          `"${r.id || ''}"`,
+          `"${r.date || ''}"`,
+          `"${(r.name || '').replace(/"/g, '""')}"`,
+          `"${(r.email || '').replace(/"/g, '""')}"`,
+          `"${(r.whatsapp || '').replace(/"/g, '""')}"`,
+          `"${(r.title || '').replace(/"/g, '""')}"`,
+          `"${(r.type || '').replace(/"/g, '""')}"`,
+          `"${(r.budget || '').replace(/"/g, '""')}"`,
+          `"${(r.description || '').replace(/"/g, '""')}"`
+        ]
+        csvRows.push(row.join(','))
+      })
+    } else {
+      headers = ['id', 'date', 'name', 'company', 'email', 'whatsapp', 'amount', 'target_product', 'notes']
+      csvRows.push(headers.join(','))
+      targetList.forEach(r => {
+        const row = [
+          `"${r.id || ''}"`,
+          `"${r.date || ''}"`,
+          `"${(r.name || '').replace(/"/g, '""')}"`,
+          `"${(r.company || '').replace(/"/g, '""')}"`,
+          `"${(r.email || '').replace(/"/g, '""')}"`,
+          `"${(r.whatsapp || '').replace(/"/g, '""')}"`,
+          `"${(r.amount || '').replace(/"/g, '""')}"`,
+          `"${(r.target_product || '').replace(/"/g, '""')}"`,
+          `"${(r.notes || '').replace(/"/g, '""')}"`
+        ]
+        csvRows.push(row.join(','))
+      })
+    }
 
     const csvContent = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvRows.join('\n'))
     const link = document.createElement('a')
     link.setAttribute('href', csvContent)
-    link.setAttribute('download', 'data.csv')
+    link.setAttribute('download', isProjects ? 'projects.csv' : 'investments.csv')
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
@@ -163,6 +237,13 @@ export default function Admin() {
     (r.email || '').toLowerCase().includes(search.toLowerCase()) ||
     (r.title || '').toLowerCase().includes(search.toLowerCase()) ||
     (r.type || '').toLowerCase().includes(search.toLowerCase())
+  )
+
+  const filteredInvestments = investments.filter(r => 
+    (r.name || '').toLowerCase().includes(search.toLowerCase()) ||
+    (r.company || '').toLowerCase().includes(search.toLowerCase()) ||
+    (r.email || '').toLowerCase().includes(search.toLowerCase()) ||
+    (r.target_product || '').toLowerCase().includes(search.toLowerCase())
   )
 
   return (
@@ -197,7 +278,7 @@ export default function Admin() {
                   Admin Workspace
                 </h1>
                 <p style={{ color: 'var(--ink-30)', fontSize: 13.5, marginBottom: 28 }}>
-                  Enter the password to view project requests and download requirements.
+                  Enter the password to view project requests, investment proposals, and download requirements.
                 </p>
 
                 <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -240,28 +321,24 @@ export default function Admin() {
                     <span className="pill pill-gold">Admin Panel</span>
                     {syncStatus === 'online' ? (
                       <span className="pill" style={{ background: 'rgba(52,199,89,0.1)', color: '#248a3d', border: '1px solid rgba(52,199,89,0.2)', fontSize: 11, padding: '4px 10px', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                        ● Live Sync Active
-                      </span>
-                    ) : syncStatus === 'local' ? (
-                      <span className="pill" style={{ background: 'rgba(255,149,0,0.1)', color: '#b26a00', border: '1px solid rgba(255,149,0,0.2)', fontSize: 11, padding: '4px 10px', display: 'inline-flex', alignItems: 'center', gap: 4 }} title="Verify email on kvdb.io to activate cloud sync.">
-                        ● Local Mode (Verify email)
+                        ● Supabase Connected
                       </span>
                     ) : (
-                      <span className="pill" style={{ background: 'rgba(142,142,147,0.1)', color: '#8e8e93', border: '1px solid rgba(142,142,147,0.2)', fontSize: 11, padding: '4px 10px', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                        ● Connecting...
+                      <span className="pill" style={{ background: 'rgba(255,149,0,0.1)', color: '#b26a00', border: '1px solid rgba(255,149,0,0.2)', fontSize: 11, padding: '4px 10px', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                        ● Local Demo Mode
                       </span>
                     )}
                   </div>
                   <h1 style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 740, letterSpacing: '-1.5px', margin: 0 }}>
-                    Requirement Database
+                    Workspace Database
                   </h1>
                 </div>
                 <div style={{ display: 'flex', gap: 10 }}>
                   <button className="btn btn-ink" onClick={handleDownloadCSV}>
-                    <Download size={14} /> Download data.csv
+                    <Download size={14} /> Download CSV
                   </button>
                   <button className="btn btn-ghost" onClick={handleClear} style={{ color: 'var(--red)', borderColor: 'rgba(255,69,58,0.2)' }} onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,69,58,0.05)'} onMouseLeave={(e) => e.currentTarget.style.background = 'none'}>
-                    <Trash2 size={14} /> Clear All
+                    <Trash2 size={14} /> Clear Tab
                   </button>
                   <button className="btn btn-ghost" onClick={handleLogout}>
                     <LogOut size={14} /> Log Out
@@ -272,10 +349,10 @@ export default function Admin() {
               {/* Stats overview */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16, marginBottom: 28 }}>
                 {[
-                  { label: 'Total Inquiries', val: records.length },
-                  { label: 'AI Projects & Bots', val: records.filter(r => (r.type || '').toLowerCase().includes('ai') || (r.type || '').toLowerCase().includes('bot')).length },
-                  { label: 'SaaS & Custom Apps', val: records.filter(r => (r.type || '').toLowerCase().includes('saas') || (r.type || '').toLowerCase().includes('software') || (r.type || '').toLowerCase().includes('web')).length },
-                  { label: 'Active Sessions', val: 1 }
+                  { label: 'Project Enquiries', val: records.length },
+                  { label: 'Funding Offers', val: investments.length },
+                  { label: 'AI Products Selected', val: records.filter(r => (r.type || '').toLowerCase().includes('ai') || (r.type || '').toLowerCase().includes('bot')).length },
+                  { label: 'Growth/Enterprise Capital', val: investments.filter(r => (r.amount || '').toLowerCase().includes('growth') || (r.amount || '').toLowerCase().includes('enterprise')).length }
                 ].map((s, i) => (
                   <div key={i} style={{ background: 'var(--white)', border: '1px solid var(--ink-08)', borderRadius: 'var(--r16)', padding: '20px 24px', boxShadow: 'var(--s1)' }}>
                     <div style={{ fontSize: 13, color: 'var(--ink-30)', fontWeight: 500 }}>{s.label}</div>
@@ -284,12 +361,48 @@ export default function Admin() {
                 ))}
               </div>
 
+              {/* Tab Selector */}
+              <div style={{ display: 'flex', gap: 8, marginBottom: 20, borderBottom: '1px solid var(--ink-08)', paddingBottom: 12 }}>
+                <button
+                  style={{
+                    padding: '8px 16px',
+                    borderRadius: 'var(--r8)',
+                    fontSize: 14.5,
+                    fontWeight: 650,
+                    background: activeTab === 'projects' ? 'var(--gold-mist)' : 'transparent',
+                    border: activeTab === 'projects' ? '1px solid var(--gold-border)' : '1px solid transparent',
+                    color: activeTab === 'projects' ? '#7A5500' : 'var(--ink-50)',
+                    cursor: 'pointer'
+                  }}
+                  onClick={() => { setActiveTab('projects'); setSearch(''); }}
+                >
+                  <Briefcase size={14} style={{ marginRight: 6, display: 'inline', verticalAlign: 'middle' }} />
+                  Project Enquiries ({records.length})
+                </button>
+                <button
+                  style={{
+                    padding: '8px 16px',
+                    borderRadius: 'var(--r8)',
+                    fontSize: 14.5,
+                    fontWeight: 650,
+                    background: activeTab === 'investments' ? 'var(--gold-mist)' : 'transparent',
+                    border: activeTab === 'investments' ? '1px solid var(--gold-border)' : '1px solid transparent',
+                    color: activeTab === 'investments' ? '#7A5500' : 'var(--ink-50)',
+                    cursor: 'pointer'
+                  }}
+                  onClick={() => { setActiveTab('investments'); setSearch(''); }}
+                >
+                  <Landmark size={14} style={{ marginRight: 6, display: 'inline', verticalAlign: 'middle' }} />
+                  Funding & Investments ({investments.length})
+                </button>
+              </div>
+
               {/* Search bar */}
               <div style={{ position: 'relative', marginBottom: 20 }}>
                 <Search size={16} style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: 'var(--ink-15)' }} />
                 <input
                   type="text"
-                  placeholder="Search inquiries by name, email, or project title..."
+                  placeholder={activeTab === 'projects' ? "Search inquiries by name, email, or project title..." : "Search investments by name, company, or target product..."}
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   style={{
@@ -313,62 +426,127 @@ export default function Admin() {
                 overflow: 'hidden',
                 boxShadow: 'var(--s2)'
               }}>
-                {filteredRecords.length > 0 ? (
-                  <div style={{ overflowX: 'auto' }}>
-                    <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: 14 }}>
-                      <thead>
-                        <tr style={{ background: 'var(--ink-04)', borderBottom: '1px solid var(--ink-08)', color: 'var(--ink-50)' }}>
-                          <th style={{ padding: '16px 20px', fontWeight: 600 }}>Project / Type</th>
-                          <th style={{ padding: '16px 20px', fontWeight: 600 }}>Client Contact</th>
-                          <th style={{ padding: '16px 20px', fontWeight: 600 }}>Budget scale</th>
-                          <th style={{ padding: '16px 20px', fontWeight: 600 }}>Date</th>
-                          <th style={{ padding: '16px 20px', fontWeight: 600 }}>Description</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {filteredRecords.map((r, i) => (
-                          <tr key={r.id || i} style={{ borderBottom: i === filteredRecords.length - 1 ? 'none' : '1px solid var(--ink-08)', verticalAlign: 'top' }}>
-                            <td style={{ padding: '20px' }}>
-                              <div style={{ fontWeight: 700, color: 'var(--ink)', fontSize: 14.5 }}>{r.title}</div>
-                              <span className="pill pill-gold" style={{ fontSize: 9.5, padding: '2px 8px', marginTop: 6 }}>{r.type}</span>
-                            </td>
-                            <td style={{ padding: '20px' }}>
-                              <div style={{ fontWeight: 600, color: 'var(--ink)' }}>{r.name}</div>
-                              <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 6 }}>
-                                <a href={`mailto:${r.email}`} style={{ color: 'var(--blue)', fontSize: 13, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                                  <Mail size={11} /> {r.email}
-                                </a>
-                                {r.whatsapp && (
-                                  <a href={`https://wa.me/${r.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noreferrer" style={{ color: '#25D366', fontSize: 13, display: 'inline-flex', alignItems: 'center', gap: 4, fontWeight: 500 }}>
-                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.73-1.455L0 24zm6.59-4.846c1.6.95 3.42 1.45 5.302 1.453 5.485.002 9.948-4.463 9.952-9.953.002-2.66-1.033-5.161-2.91-7.04-1.876-1.879-4.375-2.914-7.034-2.916-5.487 0-9.95 4.461-9.954 9.95-.001 1.88.497 3.719 1.442 5.31l-.243.89-.963 3.524 3.61-.947.886-.234zm11.353-7.53c-.305-.152-1.807-.892-2.086-.994-.279-.101-.483-.152-.686.152-.204.304-.787.994-.965 1.196-.177.203-.355.228-.66.076-.304-.152-1.285-.473-2.448-1.511-.906-.807-1.517-1.805-1.694-2.11-.178-.304-.019-.468.133-.62.137-.136.305-.355.457-.532.152-.177.203-.304.305-.507.102-.203.05-.38-.025-.532-.076-.152-.686-1.653-.94-2.261-.247-.595-.497-.514-.686-.524-.177-.008-.38-.01-.583-.01-.203 0-.533.076-.812.38-.28.304-1.066 1.039-1.066 2.535s1.09 2.94 1.243 3.143c.152.203 2.146 3.277 5.197 4.594.726.313 1.293.5 1.734.64.73.23 1.39.198 1.912.12.583-.087 1.807-.738 2.061-1.453.254-.716.254-1.33.178-1.457-.076-.127-.279-.203-.583-.355z"/></svg> {r.whatsapp}
-                                  </a>
-                                )}
-                              </div>
-                            </td>
-                            <td style={{ padding: '20px' }}>
-                              <div style={{ fontWeight: 500, color: '#6B4A00', background: 'var(--gold-mist)', display: 'inline-block', padding: '3px 9px', borderRadius: 'var(--r8)', fontSize: 12.5, border: '1px solid var(--gold-border)' }}>
-                                {r.budget}
-                              </div>
-                            </td>
-                            <td style={{ padding: '20px', color: 'var(--ink-30)', fontSize: 13, whiteSpace: 'nowrap' }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                                <Calendar size={12} /> {r.date}
-                              </div>
-                            </td>
-                            <td style={{ padding: '20px', color: 'var(--ink-50)', fontSize: 13, maxWidth: 300, lineHeight: 1.5 }}>
-                              <div style={{ whiteSpace: 'pre-wrap' }}>{r.description}</div>
-                            </td>
+                {activeTab === 'projects' ? (
+                  /* ══ PROJECT REQUESTS TABLE ══ */
+                  filteredRecords.length > 0 ? (
+                    <div style={{ overflowX: 'auto' }}>
+                      <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: 14 }}>
+                        <thead>
+                          <tr style={{ background: 'var(--ink-04)', borderBottom: '1px solid var(--ink-08)', color: 'var(--ink-50)' }}>
+                            <th style={{ padding: '16px 20px', fontWeight: 600 }}>Project / Type</th>
+                            <th style={{ padding: '16px 20px', fontWeight: 600 }}>Client Contact</th>
+                            <th style={{ padding: '16px 20px', fontWeight: 600 }}>Budget scale</th>
+                            <th style={{ padding: '16px 20px', fontWeight: 600 }}>Date</th>
+                            <th style={{ padding: '16px 20px', fontWeight: 600 }}>Description</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                        </thead>
+                        <tbody>
+                          {filteredRecords.map((r, i) => (
+                            <tr key={r.id || i} style={{ borderBottom: i === filteredRecords.length - 1 ? 'none' : '1px solid var(--ink-08)', verticalAlign: 'top' }}>
+                              <td style={{ padding: '20px' }}>
+                                <div style={{ fontWeight: 700, color: 'var(--ink)', fontSize: 14.5 }}>{r.title}</div>
+                                <span className="pill pill-gold" style={{ fontSize: 9.5, padding: '2px 8px', marginTop: 6 }}>{r.type}</span>
+                              </td>
+                              <td style={{ padding: '20px' }}>
+                                <div style={{ fontWeight: 600, color: 'var(--ink)' }}>{r.name}</div>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 6 }}>
+                                  <a href={`mailto:${r.email}`} style={{ color: 'var(--blue)', fontSize: 13, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                                    <Mail size={11} /> {r.email}
+                                  </a>
+                                  {r.whatsapp && (
+                                    <a href={`https://wa.me/${r.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noreferrer" style={{ color: '#25D366', fontSize: 13, display: 'inline-flex', alignItems: 'center', gap: 4, fontWeight: 500 }}>
+                                      <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.73-1.455L0 24zm6.59-4.846c1.6.95 3.42 1.45 5.302 1.453 5.485.002 9.948-4.463 9.952-9.953.002-2.66-1.033-5.161-2.91-7.04-1.876-1.879-4.375-2.914-7.034-2.916-5.487 0-9.95 4.461-9.954 9.95-.001 1.88.497 3.719 1.442 5.31l-.243.89-.963 3.524 3.61-.947.886-.234zm11.353-7.53c-.305-.152-1.807-.892-2.086-.994-.279-.101-.483-.152-.686.152-.204.304-.787.994-.965 1.196-.177.203-.355.228-.66.076-.304-.152-1.285-.473-2.448-1.511-.906-.807-1.517-1.805-1.694-2.11-.178-.304-.019-.468.133-.62.137-.136.305-.355.457-.532.152-.177.203-.304.305-.507.102-.203.05-.38-.025-.532-.076-.152-.686-1.653-.94-2.261-.247-.595-.497-.514-.686-.524-.177-.008-.38-.01-.583-.01-.203 0-.533.076-.812.38-.28.304-1.066 1.039-1.066 2.535s1.09 2.94 1.243 3.143c.152.203 2.146 3.277 5.197 4.594.726.313 1.293.5 1.734.64.73.23 1.39.198 1.912.12.583-.087 1.807-.738 2.061-1.453.254-.716.254-1.33.178-1.457-.076-.127-.279-.203-.583-.355z"/></svg> {r.whatsapp}
+                                    </a>
+                                  )}
+                                </div>
+                              </td>
+                              <td style={{ padding: '20px' }}>
+                                <div style={{ fontWeight: 500, color: '#6B4A00', background: 'var(--gold-mist)', display: 'inline-block', padding: '3px 9px', borderRadius: 'var(--r8)', fontSize: 12.5, border: '1px solid var(--gold-border)' }}>
+                                  {r.budget}
+                                </div>
+                              </td>
+                              <td style={{ padding: '20px', color: 'var(--ink-30)', fontSize: 13, whiteSpace: 'nowrap' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                                  <Calendar size={12} /> {r.date}
+                                </div>
+                              </td>
+                              <td style={{ padding: '20px', color: 'var(--ink-50)', fontSize: 13, maxWidth: 300, lineHeight: 1.5 }}>
+                                <div style={{ whiteSpace: 'pre-wrap' }}>{r.description}</div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div style={{ padding: '64px 20px', textAlign: 'center', color: 'var(--ink-30)' }}>
+                      <Search size={32} strokeWidth={1.5} style={{ color: 'var(--ink-15)', marginBottom: 12 }} />
+                      <p style={{ fontSize: 15, fontWeight: 500 }}>No project requests found</p>
+                      <p style={{ fontSize: 13, marginTop: 4 }}>Any submissions from the Request form will appear here.</p>
+                    </div>
+                  )
                 ) : (
-                  <div style={{ padding: '64px 20px', textAlign: 'center', color: 'var(--ink-30)' }}>
-                    <Search size={32} strokeWidth={1.5} style={{ color: 'var(--ink-15)', marginBottom: 12 }} />
-                    <p style={{ fontSize: 15, fontWeight: 500 }}>No project requests found</p>
-                    <p style={{ fontSize: 13, marginTop: 4 }}>Any submissions from the Request form will appear here.</p>
-                  </div>
+                  /* ══ INVESTMENTS TABLE ══ */
+                  filteredInvestments.length > 0 ? (
+                    <div style={{ overflowX: 'auto' }}>
+                      <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: 14 }}>
+                        <thead>
+                          <tr style={{ background: 'var(--ink-04)', borderBottom: '1px solid var(--ink-08)', color: 'var(--ink-50)' }}>
+                            <th style={{ padding: '16px 20px', fontWeight: 600 }}>Investor / Company</th>
+                            <th style={{ padding: '16px 20px', fontWeight: 600 }}>Contact Info</th>
+                            <th style={{ padding: '16px 20px', fontWeight: 600 }}>Product Target</th>
+                            <th style={{ padding: '16px 20px', fontWeight: 600 }}>Investment Scale</th>
+                            <th style={{ padding: '16px 20px', fontWeight: 600 }}>Date</th>
+                            <th style={{ padding: '16px 20px', fontWeight: 600 }}>Proposal Details</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {filteredInvestments.map((r, i) => (
+                            <tr key={r.id || i} style={{ borderBottom: i === filteredInvestments.length - 1 ? 'none' : '1px solid var(--ink-08)', verticalAlign: 'top' }}>
+                              <td style={{ padding: '20px' }}>
+                                <div style={{ fontWeight: 700, color: 'var(--ink)', fontSize: 14.5 }}>{r.name}</div>
+                                {r.company && <div style={{ fontSize: 12.5, color: 'var(--ink-30)', marginTop: 4 }}>{r.company}</div>}
+                              </td>
+                              <td style={{ padding: '20px' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                                  <a href={`mailto:${r.email}`} style={{ color: 'var(--blue)', fontSize: 13, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                                    <Mail size={11} /> {r.email}
+                                  </a>
+                                  {r.whatsapp && (
+                                    <a href={`https://wa.me/${r.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noreferrer" style={{ color: '#25D366', fontSize: 13, display: 'inline-flex', alignItems: 'center', gap: 4, fontWeight: 500 }}>
+                                      <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.73-1.455L0 24zm6.59-4.846c1.6.95 3.42 1.45 5.302 1.453 5.485.002 9.948-4.463 9.952-9.953.002-2.66-1.033-5.161-2.91-7.04-1.876-1.879-4.375-2.914-7.034-2.916-5.487 0-9.95 4.461-9.954 9.95-.001 1.88.497 3.719 1.442 5.31l-.243.89-.963 3.524 3.61-.947.886-.234zm11.353-7.53c-.305-.152-1.807-.892-2.086-.994-.279-.101-.483-.152-.686.152-.204.304-.787.994-.965 1.196-.177.203-.355.228-.66.076-.304-.152-1.285-.473-2.448-1.511-.906-.807-1.517-1.805-1.694-2.11-.178-.304-.019-.468.133-.62.137-.136.305-.355.457-.532.152-.177.203-.304.305-.507.102-.203.05-.38-.025-.532-.076-.152-.686-1.653-.94-2.261-.247-.595-.497-.514-.686-.524-.177-.008-.38-.01-.583-.01-.203 0-.533.076-.812.38-.28.304-1.066 1.039-1.066 2.535s1.09 2.94 1.243 3.143c.152.203 2.146 3.277 5.197 4.594.726.313 1.293.5 1.734.64.73.23 1.39.198 1.912.12.583-.087 1.807-.738 2.061-1.453.254-.716.254-1.33.178-1.457-.076-.127-.279-.203-.583-.355z"/></svg> {r.whatsapp}
+                                    </a>
+                                  )}
+                                </div>
+                              </td>
+                              <td style={{ padding: '20px' }}>
+                                <span className="pill pill-neutral" style={{ fontSize: 10, padding: '3px 10px' }}>{r.target_product}</span>
+                              </td>
+                              <td style={{ padding: '20px' }}>
+                                <div style={{ fontWeight: 500, color: '#6B4A00', background: 'var(--gold-mist)', display: 'inline-block', padding: '3px 9px', borderRadius: 'var(--r8)', fontSize: 12.5, border: '1px solid var(--gold-border)' }}>
+                                  {r.amount}
+                                </div>
+                              </td>
+                              <td style={{ padding: '20px', color: 'var(--ink-30)', fontSize: 13, whiteSpace: 'nowrap' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                                  <Calendar size={12} /> {r.date}
+                                </div>
+                              </td>
+                              <td style={{ padding: '20px', color: 'var(--ink-50)', fontSize: 13, maxWidth: 300, lineHeight: 1.5 }}>
+                                <div style={{ whiteSpace: 'pre-wrap' }}>{r.notes}</div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div style={{ padding: '64px 20px', textAlign: 'center', color: 'var(--ink-30)' }}>
+                      <Search size={32} strokeWidth={1.5} style={{ color: 'var(--ink-15)', marginBottom: 12 }} />
+                      <p style={{ fontSize: 15, fontWeight: 500 }}>No investment proposals found</p>
+                      <p style={{ fontSize: 13, marginTop: 4 }}>Any submissions from the Invest page will appear here.</p>
+                    </div>
+                  )
                 )}
               </div>
             </motion.div>

@@ -33,6 +33,7 @@ export default function Footer() {
               <li><NavLink to="/about">About</NavLink></li>
               <li><NavLink to="/products">Products</NavLink></li>
               <li><NavLink to="/enquiry">Request Product</NavLink></li>
+              <li><NavLink to="/invest">Invest & Funding</NavLink></li>
               <li><NavLink to="/contact">Contact</NavLink></li>
             </ul>
           </div>
