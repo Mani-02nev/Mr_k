@@ -537,6 +537,42 @@ ul{list-style:none}
   font-size:11px;font-weight:600;margin-left:auto;
 }
 
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ AUTO-SCROLL REPORTS */
+.reports-outer{
+  overflow:hidden;
+  position:relative;
+  padding:20px 0;
+}
+.reports-outer::before,
+.reports-outer::after{
+  content:'';position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none;
+}
+.reports-outer::before{left:0;background:linear-gradient(to right,var(--ink-02),transparent)}
+.reports-outer::after{right:0;background:linear-gradient(to left,var(--ink-02),transparent)}
+.reports-track{
+  display:flex;
+  gap:20px;
+  width:max-content;
+  animation:reports-scroll 32s linear infinite;
+}
+.reports-track:hover{animation-play-state:paused}
+@keyframes reports-scroll{
+  from{transform:translateX(0)}
+  to{transform:translateX(-50%)}
+}
+.reports-card{
+  width:480px;
+  flex-shrink:0;
+}
+@media(max-width:1024px){
+  .reports-outer::before,.reports-outer::after{width:60px}
+}
+@media(max-width:768px){
+  .reports-card{
+    width:350px;
+  }
+}
+
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ PRIVATE PROJECTS */
 .pproj-grid{
   display:grid;grid-template-columns:repeat(2,1fr);gap:20px;

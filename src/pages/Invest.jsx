@@ -246,126 +246,129 @@ export default function Invest() {
             </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 20 }}>
-            {PRODUCTS_REPORT.map((p, idx) => {
-              const monthlyRevenue = p.subPrice * p.customers
-              const netMonthlyProfit = Math.round(monthlyRevenue * (p.margin / 100))
-              const annualRevenue = monthlyRevenue * 12
-              const annualNetProfit = netMonthlyProfit * 12
-              const investorMonthlyReturn = Math.round(netMonthlyProfit * (p.profitShare / 100))
-              const investorAnnualReturn = investorMonthlyReturn * 12
+          <div className="reports-outer">
+            <div className="reports-track">
+              {[...PRODUCTS_REPORT, ...PRODUCTS_REPORT].map((p, idx) => {
+                const monthlyRevenue = p.subPrice * p.customers
+                const netMonthlyProfit = Math.round(monthlyRevenue * (p.margin / 100))
+                const annualRevenue = monthlyRevenue * 12
+                const annualNetProfit = netMonthlyProfit * 12
+                const investorMonthlyReturn = Math.round(netMonthlyProfit * (p.profitShare / 100))
+                const investorAnnualReturn = investorMonthlyReturn * 12
 
-              return (
-                <motion.div
-                  key={p.name}
-                  style={{
-                    background: 'var(--white)',
-                    border: '1px solid var(--ink-08)',
-                    borderRadius: 'var(--r20)',
-                    padding: '24px 32px',
-                    boxShadow: 'var(--s1)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 20
-                  }}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: idx * 0.08 }}
-                  whileHover={{ borderColor: 'var(--gold-border)', boxShadow: 'var(--s3)' }}
-                >
-                  {/* Top Bar: Header and Status */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, borderBottom: '1px solid var(--ink-04)', paddingBottom: 16 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <div style={{
-                        width: 40, height: 40, borderRadius: 'var(--r8)',
-                        background: 'var(--gold-mist)', border: '1px solid var(--gold-border)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        color: 'var(--gold)'
-                      }}>{p.icon}</div>
-                      <div>
-                        <h3 style={{ fontSize: 17, fontWeight: 700, color: 'var(--ink)', margin: 0 }}>{p.name}</h3>
-                        <span style={{ fontSize: 12, color: 'var(--ink-30)' }}>{p.cat}</span>
-                      </div>
-                    </div>
-                    <span className="pill" style={{
-                      background: p.status.includes('Funded') || p.status.includes('Self-Funded') ? 'rgba(52,199,89,0.1)' : 'rgba(240,180,41,0.1)',
-                      color: p.status.includes('Funded') || p.status.includes('Self-Funded') ? '#248a3d' : '#7A5500',
-                      border: p.status.includes('Funded') || p.status.includes('Self-Funded') ? '1px solid rgba(52,199,89,0.2)' : '1px solid rgba(240,180,41,0.2)',
-                      fontSize: 11.5,
-                      fontWeight: 600,
-                      padding: '4px 12px'
-                    }}>
-                      {p.status}
-                    </span>
-                  </div>
-
-                  {/* Mid Section: Product Metrics & Investor Allocation */}
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 24 }}>
-                    {/* Product Financials */}
-                    <div>
-                      <h4 style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--ink-30)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 12 }}>
-                        Product Target Projections ({p.customers} Subs @ $99/mo)
-                      </h4>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13.5 }}>
-                          <span style={{ color: 'var(--ink-30)' }}>Target Monthly Revenue</span>
-                          <span style={{ fontWeight: 700, color: 'var(--ink)' }}>${monthlyRevenue.toLocaleString()} USD</span>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13.5 }}>
-                          <span style={{ color: 'var(--ink-30)' }}>Est. Net Profit Margin</span>
-                          <span style={{ fontWeight: 700, color: 'var(--ink)' }}>{p.margin}%</span>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13.5 }}>
-                          <span style={{ color: 'var(--ink-30)' }}>Target Net Monthly Profit</span>
-                          <span style={{ fontWeight: 700, color: 'var(--ink)' }}>${netMonthlyProfit.toLocaleString()} USD</span>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13.5, borderTop: '1px solid var(--ink-04)', paddingTop: 6, marginTop: 4 }}>
-                          <span style={{ color: 'var(--ink-30)' }}>Target Annual Net Profit</span>
-                          <span style={{ fontWeight: 750, color: 'var(--ink)' }}>${annualNetProfit.toLocaleString()} USD</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Investor Funding & Returns */}
-                    <div style={{
-                      background: 'var(--gold-soft)',
-                      border: '1px solid var(--gold-border)',
-                      borderRadius: 'var(--r12)',
-                      padding: '16px 20px',
+                return (
+                  <motion.div
+                    key={p.name + '-' + idx}
+                    className="reports-card"
+                    style={{
+                      background: 'var(--white)',
+                      border: '1px solid var(--ink-08)',
+                      borderRadius: 'var(--r20)',
+                      padding: '24px 32px',
+                      boxShadow: 'var(--s1)',
                       display: 'flex',
                       flexDirection: 'column',
-                      justifyContent: 'space-between'
-                    }}>
+                      gap: 20
+                    }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: (idx % 5) * 0.08 }}
+                    whileHover={{ borderColor: 'var(--gold-border)', boxShadow: 'var(--s3)' }}
+                  >
+                    {/* Top Bar: Header and Status */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, borderBottom: '1px solid var(--ink-04)', paddingBottom: 16 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                        <div style={{
+                          width: 40, height: 40, borderRadius: 'var(--r8)',
+                          background: 'var(--gold-mist)', border: '1px solid var(--gold-border)',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          color: 'var(--gold)'
+                        }}>{p.icon}</div>
+                        <div>
+                          <h3 style={{ fontSize: 17, fontWeight: 700, color: 'var(--ink)', margin: 0 }}>{p.name}</h3>
+                          <span style={{ fontSize: 12, color: 'var(--ink-30)' }}>{p.cat}</span>
+                        </div>
+                      </div>
+                      <span className="pill" style={{
+                        background: p.status.includes('Funded') || p.status.includes('Self-Funded') ? 'rgba(52,199,89,0.1)' : 'rgba(240,180,41,0.1)',
+                        color: p.status.includes('Funded') || p.status.includes('Self-Funded') ? '#248a3d' : '#7A5500',
+                        border: p.status.includes('Funded') || p.status.includes('Self-Funded') ? '1px solid rgba(52,199,89,0.2)' : '1px solid rgba(240,180,41,0.2)',
+                        fontSize: 11.5,
+                        fontWeight: 600,
+                        padding: '4px 12px'
+                      }}>
+                        {p.status}
+                      </span>
+                    </div>
+
+                    {/* Mid Section: Product Metrics & Investor Allocation */}
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 24 }}>
+                      {/* Product Financials */}
                       <div>
-                        <h4 style={{ fontSize: 11.5, fontWeight: 700, color: '#7A5500', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 12 }}>
-                          Investor Target & Projected Returns
+                        <h4 style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--ink-30)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 12 }}>
+                          Product Target Projections ({p.customers} Subs @ $99/mo)
                         </h4>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
-                            <span style={{ color: 'var(--ink-50)' }}>Allocation Target</span>
-                            <span style={{ fontWeight: 700, color: 'var(--ink)' }}>{p.investTarget}</span>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13.5 }}>
+                            <span style={{ color: 'var(--ink-30)' }}>Target Monthly Revenue</span>
+                            <span style={{ fontWeight: 700, color: 'var(--ink)' }}>${monthlyRevenue.toLocaleString()} USD</span>
                           </div>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
-                            <span style={{ color: 'var(--ink-50)' }}>Profit share return rate</span>
-                            <span style={{ fontWeight: 700, color: 'var(--ink)' }}>{p.profitShare}% of Net Profit</span>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13.5 }}>
+                            <span style={{ color: 'var(--ink-30)' }}>Est. Net Profit Margin</span>
+                            <span style={{ fontWeight: 700, color: 'var(--ink)' }}>{p.margin}%</span>
+                          </div>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13.5 }}>
+                            <span style={{ color: 'var(--ink-30)' }}>Target Net Monthly Profit</span>
+                            <span style={{ fontWeight: 700, color: 'var(--ink)' }}>${netMonthlyProfit.toLocaleString()} USD</span>
+                          </div>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13.5, borderTop: '1px solid var(--ink-04)', paddingTop: 6, marginTop: 4 }}>
+                            <span style={{ color: 'var(--ink-30)' }}>Target Annual Net Profit</span>
+                            <span style={{ fontWeight: 750, color: 'var(--ink)' }}>${annualNetProfit.toLocaleString()} USD</span>
                           </div>
                         </div>
                       </div>
-                      
-                      <div style={{ borderTop: '1px solid rgba(240,180,41,0.2)', paddingTop: 10, marginTop: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+
+                      {/* Investor Funding & Returns */}
+                      <div style={{
+                        background: 'var(--gold-soft)',
+                        border: '1px solid var(--gold-border)',
+                        borderRadius: 'var(--r12)',
+                        padding: '16px 20px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between'
+                      }}>
                         <div>
-                          <span style={{ fontSize: 11, color: 'var(--ink-50)', display: 'block' }}>Projected Target Returns</span>
-                          <span style={{ fontSize: 16, fontWeight: 800, color: 'var(--ink)' }}>${investorMonthlyReturn.toLocaleString()} USD / mo</span>
+                          <h4 style={{ fontSize: 11.5, fontWeight: 700, color: '#7A5500', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 12 }}>
+                            Investor Target & Projected Returns
+                          </h4>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
+                              <span style={{ color: 'var(--ink-50)' }}>Allocation Target</span>
+                              <span style={{ fontWeight: 700, color: 'var(--ink)' }}>{p.investTarget}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
+                              <span style={{ color: 'var(--ink-50)' }}>Profit share return rate</span>
+                              <span style={{ fontWeight: 700, color: 'var(--ink)' }}>{p.profitShare}% of Net Profit</span>
+                            </div>
+                          </div>
                         </div>
-                        <span className="pill pill-gold" style={{ fontSize: 11, fontWeight: 700 }}>
-                          ${investorAnnualReturn.toLocaleString()} USD / yr
-                        </span>
+                        
+                        <div style={{ borderTop: '1px solid rgba(240,180,41,0.2)', paddingTop: 10, marginTop: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <div>
+                            <span style={{ fontSize: 11, color: 'var(--ink-50)', display: 'block' }}>Projected Target Returns</span>
+                            <span style={{ fontSize: 16, fontWeight: 800, color: 'var(--ink)' }}>${investorMonthlyReturn.toLocaleString()} USD / mo</span>
+                          </div>
+                          <span className="pill pill-gold" style={{ fontSize: 11, fontWeight: 700 }}>
+                            ${investorAnnualReturn.toLocaleString()} USD / yr
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </motion.div>
-              )
-            })}
+                  </motion.div>
+                )
+              })}
+            </div>
           </div>
         </div>
       </section>
