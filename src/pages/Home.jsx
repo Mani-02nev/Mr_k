@@ -6,7 +6,7 @@ import {
   FileText, Terminal, Scale, BarChart2, PenTool,
   Zap, ShieldCheck, Globe,
   Lock, Building2, ShoppingBag, Factory, Star,
-  CheckCircle2, Users, Award, TrendingUp, Lightbulb
+  CheckCircle2, Users, Award, TrendingUp, Lightbulb, Coins
 } from 'lucide-react'
 
 const fadeUp = {
@@ -138,9 +138,9 @@ export default function Home() {
             <motion.div className="hero-metrics" variants={fadeUp} custom={0.2}>
               {[
                 { n: '5', s: '+', l: 'Live AI Products' },
+                { n: '$12,850', s: '', l: 'Total Invested' },
+                { n: '12', s: '', l: 'Business Investors' },
                 { n: '100', s: '%', l: 'Client Satisfaction' },
-                { n: '2', s: '+', l: 'Countries Served' },
-                { n: '1', s: '', l: 'Solo Founder' },
               ].map(m => (
                 <div className="metric" key={m.l}>
                   <div className="metric-n">{m.n}<sup>{m.s}</sup></div>
@@ -310,7 +310,7 @@ export default function Home() {
       </section>
 
       {/* ══ CUSTOM PRODUCT CTA ══ */}
-      <section className="section">
+      <section className="section" style={{ paddingBottom: 0 }}>
         <div className="wrap">
           <motion.div
             className="cta-panel"
@@ -335,6 +335,38 @@ export default function Home() {
             </p>
             <NavLink to="/enquiry" className="btn btn-gold btn-lg">
               Request Custom Product <ArrowRight size={17} />
+            </NavLink>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ══ PROFIT SHARING INVESTMENT CTA ══ */}
+      <section className="section">
+        <div className="wrap">
+          <motion.div
+            className="cta-panel"
+            initial={{ opacity: 0, y: 32, scale: 0.98 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              background: 'linear-gradient(135deg, var(--ink-80) 0%, var(--ink) 100%)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              borderRadius: 'var(--r20)',
+              padding: '56px 48px',
+              textAlign: 'center',
+              color: 'var(--white)'
+            }}
+          >
+            <Coins size={36} color="var(--gold)" style={{ margin: '0 auto 16px' }} />
+            <h2 style={{ fontSize: 28, fontWeight: 720, letterSpacing: '-0.6px', marginBottom: 12, color: 'var(--white)' }}>
+              Profit Sharing Partnerships
+            </h2>
+            <p style={{ fontSize: 16, color: 'rgba(255, 255, 255, 0.7)', maxWidth: 540, margin: '0 auto 24px', lineHeight: 1.6 }}>
+              Join <strong style={{ color: 'var(--gold)' }}>12 Active Business Investors</strong> funding the ecosystem. Current total invested capital: <strong style={{ color: 'var(--gold)' }}>$12,850 USD</strong>. Fund a product today and share in the recurring revenue profits.
+            </p>
+            <NavLink to="/invest" className="btn btn-gold btn-lg">
+              Partner & Invest Now <ArrowRight size={17} />
             </NavLink>
           </motion.div>
         </div>

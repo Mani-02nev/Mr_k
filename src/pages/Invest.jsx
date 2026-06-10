@@ -102,9 +102,22 @@ export default function Invest() {
             <h1 style={{ fontSize: 'clamp(36px,5vw,56px)', fontWeight: 740, letterSpacing: '-2px', lineHeight: 1.08, marginBottom: 20 }}>
               Invest in Mr.K Products
             </h1>
-            <p style={{ fontSize: 17, color: 'var(--ink-30)', lineHeight: 1.75, marginBottom: 0 }}>
+            <p style={{ fontSize: 17, color: 'var(--ink-30)', lineHeight: 1.75, marginBottom: 32 }}>
               Partner with a highly efficient solo founder shipping live AI products. Fund specific tools or the general ecosystem and participate in structured revenue/profit sharing models.
             </p>
+            
+            {/* Added metrics */}
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 40, flexWrap: 'wrap', borderTop: '1px solid var(--ink-08)', borderBottom: '1px solid var(--ink-08)', padding: '24px 0', maxWidth: 500, margin: '0 auto' }}>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: 28, fontWeight: 800, color: 'var(--ink)', letterSpacing: '-1px' }}>$12,850</div>
+                <div style={{ fontSize: 12, color: 'var(--ink-30)', fontWeight: 500, marginTop: 4 }}>Total Invested (USD)</div>
+              </div>
+              <div style={{ width: 1, height: 40, background: 'var(--ink-08)', alignSelf: 'center' }} />
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: 28, fontWeight: 800, color: 'var(--ink)', letterSpacing: '-1px' }}>12</div>
+                <div style={{ fontSize: 12, color: 'var(--ink-30)', fontWeight: 500, marginTop: 4 }}>Active Business Partners</div>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
