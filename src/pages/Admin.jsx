@@ -49,7 +49,7 @@ const SEED_INVESTMENTS = [
     whatsapp: '+91 99999 88888',
     amount: 'Growth Funding (₹50,000 - ₹2,00,000 INR)',
     target_product: 'KsCV Builder',
-    notes: 'Interested in funding the next major version of KsCV Builder. We can provide ₹1.5L in marketing capital for a 15% revenue share over 12 months.'
+    notes: 'Interested in funding the next major version of KsCV Builder. We can provide ₹1.5L in marketing capital for subscription profit-based returns over 12 months.'
   },
   {
     id: 'inv-2',
@@ -60,7 +60,7 @@ const SEED_INVESTMENTS = [
     whatsapp: '+65 8123 4567',
     amount: 'Enterprise Scale (Above ₹2,00,000 INR)',
     target_product: 'Mr.K Agent IDE',
-    notes: 'We want to fund the premium subscription tier of the Agent IDE. We are prepared to invest ₹5L to expedite custom Docker sandboxes development for a 20% equity/profit sharing model.'
+    notes: 'We want to fund the premium subscription tier of the Agent IDE. We are prepared to invest ₹5L to expedite custom Docker sandboxes development for subscription profit-based returns.'
   }
 ]
 

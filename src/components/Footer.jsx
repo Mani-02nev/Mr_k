@@ -10,11 +10,8 @@ export default function Footer() {
           <div className="foot-brand">
             <img src={logo} alt="Mr.K" style={{ height: 60, width: 'auto', opacity: 0.9 }} />
             <p>AI Product Based Company. Building intelligent, accessible tools for students, professionals, and businesses worldwide.</p>
-            <div className="foot-warn">
-              <TriangleAlert size={13} style={{ flexShrink: 0, marginTop: 1, color: 'rgba(240,180,41,0.6)' }} />
-              AI-generated results may contain errors. Always verify critical decisions independently. For informational use only.
-            </div>
           </div>
+
 
           <div className="foot-col">
             <h6>Products</h6>

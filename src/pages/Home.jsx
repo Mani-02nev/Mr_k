@@ -138,8 +138,8 @@ export default function Home() {
             <motion.div className="hero-metrics" variants={fadeUp} custom={0.2}>
               {[
                 { n: '5', s: '+', l: 'Live AI Products' },
-                { n: '$12,850', s: '', l: 'Total Invested' },
-                { n: '12', s: '', l: 'Business Investors' },
+                { n: '$1,200', s: '', l: 'Total Invested' },
+                { n: '1', s: '', l: 'Active Investor' },
                 { n: '100', s: '%', l: 'Client Satisfaction' },
               ].map(m => (
                 <div className="metric" key={m.l}>
@@ -360,10 +360,10 @@ export default function Home() {
           >
             <Coins size={36} color="var(--gold)" style={{ margin: '0 auto 16px' }} />
             <h2 style={{ fontSize: 28, fontWeight: 720, letterSpacing: '-0.6px', marginBottom: 12, color: 'var(--white)' }}>
-              Profit Sharing Partnerships
+              Subscription Profit Partnerships
             </h2>
             <p style={{ fontSize: 16, color: 'rgba(255, 255, 255, 0.7)', maxWidth: 540, margin: '0 auto 24px', lineHeight: 1.6 }}>
-              Join <strong style={{ color: 'var(--gold)' }}>12 Active Business Investors</strong> funding the ecosystem. Current total invested capital: <strong style={{ color: 'var(--gold)' }}>$12,850 USD</strong>. Fund a product today and share in the recurring revenue profits.
+              Join <strong style={{ color: 'var(--gold)' }}>1 Active Business Investor</strong> funding the ecosystem. Current total invested capital: <strong style={{ color: 'var(--gold)' }}>$1,200 USD</strong> (converted from <strong style={{ color: 'var(--gold)' }}>₹1,00,000 INR</strong>). Fund a product today and earn returns based on net subscription profits.
             </p>
             <NavLink to="/invest" className="btn btn-gold btn-lg">
               Partner & Invest Now <ArrowRight size={17} />
