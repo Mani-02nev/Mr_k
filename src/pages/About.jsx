@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   GraduationCap, Briefcase, Building2, Globe2, Brain, Zap, Trophy,
-  Rocket, Target, Lock, Lightbulb, Handshake, Plane,
+  Target, Lock, Lightbulb, Handshake, Plane,
   Eye, Compass, Flame, Star, CheckCircle2, TrendingUp, Users, Award
 } from 'lucide-react'
 import founderImg from '../assets/founder.png'
@@ -77,33 +76,6 @@ const achievements = [
 
 const roles = ['Founder', 'System Architect', 'Freelancer', 'AI/ML Developer', 'Mentor', 'CEO', "GSA"]
 
-const rageshTags = [
-  { icon: <Target size={14} />, label: 'Product Roadmap & Vision' },
-  { icon: <Brain size={14} />, label: 'AI Integration Architecture' },
-  { icon: <Users size={14} />, label: 'Design Systems Lead' },
-  { icon: <Zap size={14} />, label: 'Rapid Prototyping' },
-  { icon: <Award size={14} />, label: 'UX Optimization' }
-]
-
-const rageshAchievements = [
-  { icon: <Rocket size={16} />, val: '5+', lbl: 'AI Launches' },
-  { icon: <CheckCircle2 size={16} />, val: '100%', lbl: 'Roadmap Execution' },
-  { icon: <Trophy size={16} />, val: '2+', lbl: 'Enterprise Scaleups' }
-]
-
-const bharathTags = [
-  { icon: <GraduationCap size={14} />, label: 'Computer Engineering Student' },
-  { icon: <Lightbulb size={14} />, label: 'Technical Writing & Docs' },
-  { icon: <TrendingUp size={14} />, label: 'SEO & GEO Strategy' },
-  { icon: <Brain size={14} />, label: 'AI Prompt Engineering' },
-  { icon: <Award size={14} />, label: 'Video & Motion Editor' }
-]
-
-const bharathAchievements = [
-  { icon: <Users size={16} />, val: '10k+', lbl: 'Readers Reached' },
-  { icon: <CheckCircle2 size={16} />, val: '100%', lbl: 'Docs Coverage' },
-  { icon: <Zap size={16} />, val: '5+', lbl: 'Product Showcases' }
-]
 
 export default function About() {
   const [roleIndex, setRoleIndex] = useState(0)
@@ -305,177 +277,6 @@ export default function About() {
               </div>
             </motion.div>
           </div>
-        </div>
-      </section>
-
-      {/* ══ TEAM SECTION (Premium Dark Style - Side-by-Side Layout) ══ */}
-      <section className="section-dark" style={{ background: '#000', color: '#fff', padding: '120px 0 60px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-        <div className="wrap">
-          <motion.div className="sh c"
-            initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }} transition={{ duration: 0.5 }}
-            style={{ marginBottom: 60 }}
-          >
-            <span className="pill pill-gold" style={{ marginBottom: 16 }}>Team</span>
-            <h2 className="sh-h" style={{ color: 'var(--white)' }}>Meet Our Core Team</h2>
-            <p className="sh-sub" style={{ margin: '14px auto 0', maxWidth: 500, color: 'rgba(255,255,255,0.65)' }}>The talented minds driving the engineering, product direction, and media optimization at Mr.K.</p>
-          </motion.div>
-
-          <div className="team-split-container">
-            {/* Member 1: Ragesh KR */}
-            <motion.div
-              className="team-member-flat"
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            >
-              {/* Photo Wrapper */}
-              <div className="team-member-image-wrap">
-                <img
-                  src="/team-director.png"
-                  alt="Ragesh KR"
-                  className="team-member-image"
-                />
-              </div>
-
-              {/* Identity info */}
-              <div>
-                <span className="founder-feature-meet" style={{ fontSize: 13, letterSpacing: '1px', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 700 }}>Core Member</span>
-                <h3 style={{ fontSize: 32, fontWeight: 900, color: 'var(--white)', margin: '4px 0', letterSpacing: '-1.5px', textTransform: 'uppercase' }}>Ragesh </h3>
-                <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255, 255, 255, 0.4)', textTransform: 'uppercase', letterSpacing: '1px', marginTop: 2 }}>
-                  Product Director & Computer Engineering Student
-                </div>
-              </div>
-
-              {/* Bio summary */}
-              <div style={{ fontSize: 14.5, color: 'rgba(255, 255, 255, 0.65)', lineHeight: 1.7, display: 'flex', flexDirection: 'column', gap: 12 }}>
-                <p style={{ margin: 0 }}>
-                  Orchestrating the Mr.K ecosystem's product roadmap, design systems, and user experience scaling. Ragesh works to establish clear product-market alignment across every live AI agent.
-                </p>
-                <p style={{ margin: 0 }}>
-                  Focuses on product development, rapid prototyping, and layout optimization to ensure advanced AI capabilities feel simple and intuitive.
-                </p>
-              </div>
-
-              {/* Skill Tags */}
-              <div className="founder-feature-tags" style={{ marginBottom: 0, gap: 6 }}>
-                {rageshTags.map(t => (
-                  <span className="founder-feature-tag" key={t.label} style={{ fontSize: 12, padding: '6px 12px' }}>
-                    <span className="founder-feature-tag-icon" style={{ width: 18, height: 18 }}>{t.icon}</span>
-                    {t.label}
-                  </span>
-                ))}
-              </div>
-
-              {/* Achievements stats grid */}
-              <div className="founder-feature-achievements" style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 20, gap: '24px 32px' }}>
-                {rageshAchievements.map(a => (
-                  <div key={a.lbl} className="founder-feature-ach-item">
-                    <div className="founder-feature-ach-val-wrap">
-                      <span className="founder-feature-ach-icon">{a.icon}</span>
-                      <span className="founder-feature-ach-val" style={{ fontSize: 22 }}>{a.val}</span>
-                    </div>
-                    <span className="founder-feature-ach-lbl">{a.lbl}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Divider */}
-            <div className="team-split-divider" />
-
-            {/* Member 2: Bharath vaj N */}
-            <motion.div
-              className="team-member-flat"
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-            >
-              {/* Photo Wrapper */}
-              <div className="team-member-image-wrap">
-                <img
-                  src="/team-editor.png"
-                  alt="Bharath vaj N"
-                  className="team-member-image"
-                />
-              </div>
-
-              {/* Identity info */}
-              <div>
-                <span className="founder-feature-meet" style={{ fontSize: 13, letterSpacing: '1px', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 700 }}>Core Member</span>
-                <h3 style={{ fontSize: 32, fontWeight: 900, color: 'var(--white)', margin: '4px 0', letterSpacing: '-1.5px', textTransform: 'uppercase' }}>Bharath vaj </h3>
-                <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255, 255, 255, 0.4)', textTransform: 'uppercase', letterSpacing: '1px', marginTop: 2 }}>
-                  Lead Editor & Computer Engineering Student
-                </div>
-              </div>
-
-              {/* Bio summary */}
-              <div style={{ fontSize: 14.5, color: 'rgba(255, 255, 255, 0.65)', lineHeight: 1.7, display: 'flex', flexDirection: 'column', gap: 12 }}>
-                <p style={{ margin: 0 }}>
-                  A Computer Engineering student and media architect blending engineering workflows with advanced digital content strategy. Bharath drives SEO & GEO optimization, technical document design, and product messaging.
-                </p>
-                <p style={{ margin: 0 }}>
-                  Maintains tutorials, user manuals, and video assets, turning complex engineering features of the Mr.K AI tools into highly understandable, clean guides for global audiences.
-                </p>
-              </div>
-
-              {/* Skill Tags */}
-              <div className="founder-feature-tags" style={{ marginBottom: 0, gap: 6 }}>
-                {bharathTags.map(t => (
-                  <span className="founder-feature-tag" key={t.label} style={{ fontSize: 12, padding: '6px 12px' }}>
-                    <span className="founder-feature-tag-icon" style={{ width: 18, height: 18 }}>{t.icon}</span>
-                    {t.label}
-                  </span>
-                ))}
-              </div>
-
-              {/* Achievements stats grid */}
-              <div className="founder-feature-achievements" style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 20, gap: '24px 32px' }}>
-                {bharathAchievements.map(a => (
-                  <div key={a.lbl} className="founder-feature-ach-item">
-                    <div className="founder-feature-ach-val-wrap">
-                      <span className="founder-feature-ach-icon">{a.icon}</span>
-                      <span className="founder-feature-ach-val" style={{ fontSize: 22 }}>{a.val}</span>
-                    </div>
-                    <span className="founder-feature-ach-lbl">{a.lbl}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Join The Team CTA Banner */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            style={{
-              marginTop: 100,
-              padding: '48px 40px',
-              background: 'linear-gradient(135deg, rgba(25, 25, 25, 0.8) 0%, rgba(10, 10, 10, 0.95) 100%)',
-              border: '1px solid rgba(240, 180, 41, 0.15)',
-              borderRadius: 'var(--r24)',
-              textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: 20,
-              boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
-            }}
-          >
-            <h4 style={{ fontSize: 24, fontWeight: 800, margin: 0, color: 'var(--white)', letterSpacing: '-0.5px' }}>
-              Want to Build the Future of AI with Us?
-            </h4>
-            <p style={{ fontSize: 14, color: 'rgba(255, 255, 255, 0.65)', maxWidth: 500, margin: 0, lineHeight: 1.65 }}>
-              We're always looking for talented developers, designers, and creators to help scale the Mr.K ecosystem. Check out our open roles.
-            </p>
-            <Link to="/hiring" className="btn btn-gold btn-lg" style={{ marginTop: 8 }}>
-              Join the Team
-            </Link>
-          </motion.div>
         </div>
       </section>
     </div>
