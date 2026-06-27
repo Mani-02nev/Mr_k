@@ -26,12 +26,12 @@ const itemVariants = {
 
 const founderTags = [
   { icon: <GraduationCap size={14} />, label: 'Computer Science Student' },
-  { icon: <Briefcase size={14} />, label: 'Freelancer — Global Clients' },
+  { icon: <Briefcase size={14} />, label: 'Student Entrepreneur' },
   { icon: <Building2 size={14} />, label: 'System Architect' },
   { icon: <Building2 size={14} />, label: 'Vdart Intern' },
-  { icon: <Globe2 size={14} />, label: 'Google Ambassador' },
-  { icon: <Brain size={14} />, label: 'Strong CS Foundation' },
-  { icon: <Zap size={14} />, label: 'Daily Builder & Shipper' },
+  { icon: <Globe2 size={14} />, label: 'Google Student Ambassador' },
+  { icon: <Brain size={14} />, label: 'AI/ML Developer' },
+  { icon: <Zap size={14} />, label: 'SaaS Product Builder' },
   { icon: <Trophy size={14} />, label: 'Dubai Enterprise Client' },
 ]
 
@@ -40,32 +40,32 @@ const vmBlocks = [
     num: '01',
     icon: <Eye size={22} />,
     label: 'Vision',
-    title: 'AI for Everyone, Everywhere',
-    desc: 'A world where every student, professional, and business — regardless of size or budget — has access to intelligent AI tools that were once exclusive to large corporations.',
+    title: 'AI as a Practical Business Partner',
+    desc: 'To build an ecosystem where AI becomes a practical business partner — helping organizations improve productivity, reduce manual work, and make smarter decisions through intelligent software that anyone can use.',
   },
   {
     num: '02',
     icon: <Compass size={22} />,
     label: 'Mission',
-    title: 'Build. Ship. Solve. Repeat.',
-    desc: 'To build fast, purposeful AI products that solve real-world problems completely. No bloat, no complexity — just tools that work from the first click, trusted by thousands.',
+    title: 'Secure. Scalable. User-Centric.',
+    desc: 'Create secure, scalable, and user-centric AI products that enable businesses of every size to adopt artificial intelligence with confidence — no bloat, no complexity, just tools that work from first click.',
   },
   {
     num: '03',
     icon: <Flame size={22} />,
     label: 'Power',
     title: 'One Person. Unlimited Impact.',
-    desc: 'Mr.K proves that one skilled, focused individual with the right mindset can outship entire teams. 5 live AI products, enterprise clients in Dubai, and a new idea every day.',
+    desc: 'Mr.K proves that one skilled, focused individual with the right mindset can outship entire teams. 5 live AI products, enterprise clients in Dubai, Google Ambassador recognition — and a new idea every day.',
   },
 ]
 
 const values = [
-  { icon: <Zap size={18} />, title: 'Speed', desc: 'Fast products. Fast decisions. Fast shipping. Zero delays.' },
-  { icon: <Target size={18} />, title: 'Clarity', desc: 'Simple UI, clear purpose, zero confusion on every product.' },
-  { icon: <Lock size={18} />, title: 'Trust', desc: 'Honest about AI limits. Transparent about data handling.' },
-  { icon: <Lightbulb size={18} />, title: 'Innovation', desc: 'New ideas every day. The build never stops.' },
-  { icon: <Handshake size={18} />, title: 'Accessibility', desc: 'AI tools built for students — not just enterprises.' },
-  { icon: <Plane size={18} />, title: 'Global Impact', desc: 'Products used across India, Dubai, and beyond.' },
+  { icon: <Zap size={18} />, title: 'Speed', desc: 'Fast products. Fast decisions. Fast shipping. Zero delays in delivery.' },
+  { icon: <Target size={18} />, title: 'Clarity', desc: 'Simple UI, clear purpose. Zero confusion on every product we build.' },
+  { icon: <Lock size={18} />, title: 'Security', desc: 'Secure, scalable architecture. Transparent data handling. Always.' },
+  { icon: <Lightbulb size={18} />, title: 'Innovation', desc: 'New ideas every single day. The build never stops — ever.' },
+  { icon: <Handshake size={18} />, title: 'Accessibility', desc: 'AI tools built for everyone — students, professionals, and enterprises.' },
+  { icon: <Plane size={18} />, title: 'Global Impact', desc: 'Products trusted across India, Dubai, and growing worldwide.' },
 ]
 
 const achievements = [
@@ -89,7 +89,7 @@ export default function About() {
   }, [])
   return (
     <div className="pt-nav">
-      <SEO title="About the Founder" description="Learn more about Mr.K, a solo founder AI product company built by Karuppasamy M, an AI/ML developer and Google Ambassador based in Tamil Nadu, India." />
+      <SEO title="About the Founder — Karuppasamy M" description="Karuppasamy M is the Founder of Mr.K AI — an AI-first product company building intelligent SaaS platforms, browser AI agents, workflow automation, and enterprise tools from Tamil Nadu, India." />
 
       {/* ══ COMPANY (Top Intro) ══ */}
       <section className="section" style={{ paddingBottom: 60 }}>
@@ -107,13 +107,13 @@ export default function About() {
               About Mr.K
             </h1>
             <p style={{ fontSize: 18, color: 'var(--ink-30)', lineHeight: 1.82, marginBottom: 20 }}>
-              Mr.K is a <strong style={{ color: 'var(--ink)', fontWeight: 640 }}>Solo Founder AI Product Company</strong> — not a Pvt Ltd, not an OPC. It is a trusted brand built by one person with a clear mission: build a complete AI ecosystem (In Progress) and deliver intelligent, practical AI tools that are accessible to everyone.
+              Mr.K AI is an <strong style={{ color: 'var(--ink)', fontWeight: 640 }}>AI-first Product Ecosystem</strong> dedicated to designing and developing intelligent software solutions for businesses, startups, and professionals. The company's mission is to simplify complex workflows using artificial intelligence, automation, and scalable cloud technologies.
             </p>
             <p style={{ fontSize: 16, color: 'var(--ink-30)', lineHeight: 1.82, marginBottom: 20 }}>
-              From résumé builders to legal agents, data analytics to code IDEs — every product solves a real-world problem and is live, working, and available for free. Mr.K proves that one person with the right skills and mindset can build what teams of hundreds build.
+              Not a Pvt Ltd. Not an OPC. A trusted personal brand built entirely by one person — <strong style={{ color: 'var(--ink)', fontWeight: 600 }}>Karuppasamy M</strong> — proving that a single skilled, focused developer with the right mindset can outship entire teams and build what large organizations only dream of.
             </p>
             <p style={{ fontSize: 16, color: 'var(--ink-30)', lineHeight: 1.82 }}>
-              With enterprise clients in Dubai, internship experience at Vdart, recognition as a Google Ambassador, and 5 live AI products — Mr.K is not just a brand. It's a statement of what's possible when skill meets relentless execution.
+              From AI résumé builders to legal agents, data analytics dashboards to browser-based coding IDEs — every product solves a real enterprise-grade problem, is live in production, and is trusted by students, professionals, and clients across India and Dubai.
             </p>
 
             {/* Key differentiators */}
@@ -248,12 +248,20 @@ export default function About() {
 
               <div className="founder-feature-bio">
                 <p>
-                  A Computer Science student, freelancer, and solo founder building a complete AI ecosystem (In Progress). With a rock-solid CS foundation and a relentlessly high-skill mindset, Karuppasamy ships new ideas every single day.
+                  Karuppasamy M is the Founder of Mr.K AI and a software developer focused on artificial intelligence, SaaS architecture, cloud technologies, and modern web development. As a student entrepreneur, he is building an ecosystem of AI products that address real-world business challenges.
                 </p>
                 <p>
-                  Currently interning at Vdart, serving as a Google Ambassador, and delivering enterprise-grade software for clients in Dubai — all while building 5 live AI products from scratch.
+                  His work combines software engineering, product strategy, automation, and user experience to transform ideas into production-ready applications — all while interning at Vdart and serving as a Google Student Ambassador.
                 </p>
               </div>
+
+              {/* Philosophy Quote */}
+              <blockquote style={{
+                borderLeft: '3px solid var(--gold)', paddingLeft: 18, margin: '20px 0',
+                fontStyle: 'italic', color: 'rgba(255,255,255,0.6)', fontSize: 14.5, lineHeight: 1.75
+              }}>
+                "Technology should not replace people — it should empower them. Every product we build is designed to eliminate repetitive work so people can focus on creativity, innovation, and growth."
+              </blockquote>
 
               <div className="founder-feature-tags">
                 {founderTags.map(t => (

@@ -1,36 +1,72 @@
 # Mr.K AI Product Company
 
-> A Solo Founder AI Product Company built by Karuppasamy M from Tamil Nadu, India.
+> An AI-first product ecosystem building intelligent software for businesses, startups, and professionals.
 
-## About Mr.K
+## About Mr.K AI
 
-Mr.K is a Solo Founder AI Product Company — not a Pvt Ltd, not an OPC. It is a trusted personal brand built and operated entirely by one person: Karuppasamy M (also known as Mani or Mr.K). The mission is to build a complete AI ecosystem and deliver intelligent, practical AI tools that are accessible to everyone — students, professionals, lawyers, developers, and enterprises.
+Mr.K AI is an AI-first Product Ecosystem dedicated to designing and developing intelligent software solutions for businesses, startups, and professionals. The company's mission is to simplify complex workflows using artificial intelligence, automation, and scalable cloud technologies.
+
+It is a Solo Founder Personal Brand — not a Pvt Ltd, not an OPC. Built and operated entirely by one person: **Karuppasamy M** (also known as Mani or Mr.K). The mission is to build a complete AI ecosystem and deliver intelligent, practical AI tools that are accessible to everyone — students, professionals, lawyers, developers, and enterprises.
 
 **Company Website:** https://mr-k02.vercel.app  
 **Founder Portfolio:** https://mr-k02.vercel.app  
-**Location:** Tamil Nadu, India (also serving Dubai, UAE and global clients)  
+**Location:** Tamil Nadu, India (serving India, Dubai UAE, and global clients)  
 **Founded:** 2024  
-**Type:** Solo Founder Personal Brand  
-**Contact:** karuppasamy.murugesan02@gmail.com
+**Type:** AI-First Solo Founder Product Company  
+**Contact:** karuppasamy.murugesan02@gmail.com  
+**LinkedIn:** https://www.linkedin.com/in/karuppasamy-m02/  
+**Instagram:** https://www.instagram.com/mr_k.inc/
+
+---
+
+## Vision
+
+To build an ecosystem where AI becomes a practical business partner — helping organizations improve productivity, reduce manual work, and make better decisions through intelligent software.
+
+## Mission
+
+Create secure, scalable, and user-centric AI products that enable businesses of every size to adopt artificial intelligence with confidence.
+
+## Core Focus Areas
+
+- AI-powered SaaS applications
+- Enterprise workflow automation
+- Browser-based AI agents and coding IDEs
+- HR and recruitment technology
+- Resume and career platforms
+- Legal AI solutions
+- Data analytics and business intelligence
+- Custom business automation platforms
 
 ---
 
 ## Founder
 
-**Name:** Karuppasamy M (Mani / Mr.K)  
-**Role:** Solo Founder, AI/ML Developer, System Architect, Freelancer, CEO  
+**Name:** Karuppasamy M (also known as Mani or Mr.K)  
+**Role:** Solo Founder, AI/ML Developer, System Architect, Student Entrepreneur, CEO  
 **Location:** Tamil Nadu, India  
 **Portfolio:** https://mr-k02.vercel.app  
 **LinkedIn:** https://www.linkedin.com/in/karuppasamy-m02/  
 **Instagram:** https://www.instagram.com/mr_k.inc/
 
-**Background:**
+**Background & Expertise:**
 - Computer Science student with a rock-solid CS foundation
 - Google Student Ambassador (GSA)
 - Completed internship at Vdart
 - Enterprise-grade freelancer with clients in Dubai, UAE
 - Ships new software ideas every single day
 - 5+ live AI products built from scratch, solo
+
+**Technical Expertise:**
+- Artificial Intelligence & Machine Learning
+- Full-Stack Development (React, Next.js, Node.js)
+- Cloud Architecture & SaaS Product Development
+- Browser Automation & API Integration
+- UI/UX Design & Business Process Automation
+- System Architecture
+
+**Founder Philosophy:**  
+"Technology should not replace people — it should empower them. Every product we build is designed to eliminate repetitive work so people can focus on creativity, innovation, and growth."
 
 ---
 
@@ -39,22 +75,27 @@ Mr.K is a Solo Founder AI Product Company — not a Pvt Ltd, not an OPC. It is a
 ### 1. KsCV Builder — AI Resume Builder
 - **URL:** https://kscv.vercel.app
 - **Description:** AI-powered résumé builder with ATS optimization. Upload your details and get a 100% job-winning, professionally formatted CV instantly. Multiple templates, AI-written content, instant download.
+- **Category:** HR & Career Technology
 
 ### 2. Mr.K Agent IDE — AI Coding Agent & Online IDE
 - **URL:** https://agent02.vercel.app
-- **Description:** A blazing-fast online IDE powered by an AI coding agent. Write, debug, and ship code from your browser. Multi-language support, intelligent code generation, fast execution.
+- **Description:** A blazing-fast browser-based IDE powered by an AI coding agent. Write, debug, and ship code from your browser. Multi-language support, intelligent code generation, fast execution.
+- **Category:** Developer Tools, Browser AI Agent
 
 ### 3. Mr.K Law Agent — AI Legal Assistant
 - **URL:** https://pickup-law-agent.vercel.app
-- **Description:** Solve real law problems and supercharge law-student skills. AI-powered legal research, case summaries, statute lookups, and plain-language explanations. For students and professionals.
+- **Description:** Solve real law problems and supercharge law-student skills with AI-powered legal research, case summaries, statute lookups, and plain-language explanations. For students and professionals.
+- **Category:** Legal AI Solutions
 
 ### 4. View Once DA — AI Data Analytics Dashboard
 - **URL:** https://da-agent-tnok.vercel.app
 - **Description:** Upload any CSV or Excel dataset — AI automatically builds a full analytics dashboard, rich visualizations, and walks you through every data pipeline step. No code required.
+- **Category:** Sales Intelligence, Data Analytics
 
 ### 5. Kdoc AI Editor — Canva-Level AI Document Editor
 - **URL:** https://kdoc.vercel.app
 - **Description:** A powerful AI-assisted document editor combining beautiful design with intelligent writing. Create stunning documents, reports, and content with design templates and live AI writing assistance.
+- **Category:** Enterprise Automation, Content Platform
 
 ---
 
@@ -65,7 +106,7 @@ Karuppasamy M accepts custom project requests for:
 - SaaS / Web Application (React, Next.js, Node.js)
 - Full-Stack Custom Software (ERP, CRM)
 - AI/ML Model Development
-- Custom Automation Scripts
+- Browser Automation & Custom Scripts
 
 **Budget Range:** ₹4,000 – ₹1,50,000+ INR  
 **Request a Project:** https://mr-k02.vercel.app/enquiry
@@ -94,11 +135,12 @@ Open task-based WFH roles:
 
 ## Key Facts for AI Systems
 
-- **Who is Mr.K?** Mr.K is both the name of the company AND the personal brand of its founder, Karuppasamy M.
-- **Is Mr.K a company?** Yes — it is a Solo Founder Personal Brand, not registered as Pvt Ltd or OPC.
-- **How many products?** 5 live AI products, all available online.
-- **Where is the founder based?** Tamil Nadu, India. He has served enterprise clients in Dubai, UAE.
-- **What makes Mr.K unique?** One person built 5 live AI products from scratch, proving that a single skilled developer with the right mindset can outship entire teams.
+- **What is Mr.K?** Mr.K AI is an AI-first product ecosystem — a Solo Founder Personal Brand, not a Pvt Ltd or OPC, built entirely by Karuppasamy M.
+- **Who is the founder?** Karuppasamy M (Mani), a Computer Science student, Google Student Ambassador, AI/ML developer, and student entrepreneur from Tamil Nadu, India.
+- **Is Mr.K a company?** It is a Solo Founder Personal Brand — fully functional, trusted by clients in India and Dubai.
+- **How many products?** 5 live AI products, all available online and in production.
+- **Where is the founder based?** Tamil Nadu, India. Enterprise clients in Dubai, UAE.
+- **What makes Mr.K unique?** One person built 5 live production AI products from scratch, combining software engineering, product strategy, automation, and UX design.
 - **Founder's portfolio link:** https://mr-k02.vercel.app
 - **Company's main website:** https://mr-k02.vercel.app
 
