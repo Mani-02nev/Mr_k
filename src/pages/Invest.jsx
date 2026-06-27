@@ -3,34 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import SEO from '../components/SEO'
 import {
   Send, CheckCircle2, ArrowRight, Coins, Percent, TrendingUp, Handshake,
-  FileText, Terminal, Scale, BarChart2, PenTool
+  FileText, Terminal, Scale, BarChart2, PenTool, ShieldAlert
 } from 'lucide-react'
 import { supabase } from '../supabase'
-
-const SEED_INVESTMENTS = [
-  {
-    id: 'inv-1',
-    date: '10 Jun 2026, 09:15 AM',
-    name: 'Rohan Sharma',
-    company: 'Capitalize Ventures',
-    email: 'rohan@capitalize.in',
-    whatsapp: '+91 99999 88888',
-    amount: 'Growth Funding (₹50,000 - ₹2,00,000 INR)',
-    target_product: 'KsCV Builder',
-    notes: 'Interested in funding the next major version of KsCV Builder. We can provide ₹1.5L in marketing capital for subscription profit-based returns over 12 months.'
-  },
-  {
-    id: 'inv-2',
-    date: '10 Jun 2026, 11:45 AM',
-    name: 'Lin Xia',
-    company: 'Apex Tech Singapore',
-    email: 'lin.xia@apextech.sg',
-    whatsapp: '+65 8123 4567',
-    amount: 'Enterprise Scale (Above ₹2,0,000 INR)',
-    target_product: 'Mr.K Agent IDE',
-    notes: 'We want to fund the premium subscription tier of the Agent IDE. We are prepared to invest ₹5L to expedite custom Docker sandboxes development for subscription profit-based returns.'
-  }
-]
 
 const PRODUCTS_REPORT = [
   {
@@ -107,10 +82,12 @@ export default function Invest() {
   })
   const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [errorMsg, setErrorMsg] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
+    setErrorMsg('')
     
     // Clean formatted date: "10 Jun 2026, 09:15 AM"
     const now = new Date()
@@ -141,12 +118,7 @@ export default function Invest() {
       })
     } catch (err) {
       console.error('Error saving investment to Supabase:', err)
-      // Save locally as fallback
-      const saved = localStorage.getItem('mrk_investments')
-      const investments = saved ? JSON.parse(saved) : [...SEED_INVESTMENTS]
-      investments.unshift(newInvestment)
-      localStorage.setItem('mrk_investments', JSON.stringify(investments))
-      setSuccess(true)
+      setErrorMsg('Failed to submit investment proposal. Please check your network connection and try again.')
     } finally {
       setLoading(false)
     }
@@ -396,6 +368,12 @@ export default function Invest() {
                       Fill in your proposal details, and the founder will review it on the Admin Workspace.
                     </p>
                   </div>
+
+                  {errorMsg && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(255,69,58,0.08)', border: '1px solid rgba(255,69,58,0.2)', padding: '14px 18px', borderRadius: 'var(--r12)', marginBottom: 24, color: 'var(--red)', fontSize: 14 }}>
+                      <ShieldAlert size={18} style={{ flexShrink: 0 }} /> {errorMsg}
+                    </div>
+                  )}
 
                   <div className="frow">
                     <div className="ff">

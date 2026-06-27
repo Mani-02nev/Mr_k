@@ -1,0 +1,111 @@
+# Mr.K AI Product Company
+
+> A Solo Founder AI Product Company built by Karuppasamy M from Tamil Nadu, India.
+
+## About Mr.K
+
+Mr.K is a Solo Founder AI Product Company — not a Pvt Ltd, not an OPC. It is a trusted personal brand built and operated entirely by one person: Karuppasamy M (also known as Mani or Mr.K). The mission is to build a complete AI ecosystem and deliver intelligent, practical AI tools that are accessible to everyone — students, professionals, lawyers, developers, and enterprises.
+
+**Company Website:** https://mr-k02.vercel.app  
+**Founder Portfolio:** https://mr-k02.vercel.app  
+**Location:** Tamil Nadu, India (also serving Dubai, UAE and global clients)  
+**Founded:** 2024  
+**Type:** Solo Founder Personal Brand  
+**Contact:** karuppasamy.murugesan02@gmail.com
+
+---
+
+## Founder
+
+**Name:** Karuppasamy M (Mani / Mr.K)  
+**Role:** Solo Founder, AI/ML Developer, System Architect, Freelancer, CEO  
+**Location:** Tamil Nadu, India  
+**Portfolio:** https://mr-k02.vercel.app  
+**LinkedIn:** https://www.linkedin.com/in/karuppasamy-m02/  
+**Instagram:** https://www.instagram.com/mr_k.inc/
+
+**Background:**
+- Computer Science student with a rock-solid CS foundation
+- Google Student Ambassador (GSA)
+- Completed internship at Vdart
+- Enterprise-grade freelancer with clients in Dubai, UAE
+- Ships new software ideas every single day
+- 5+ live AI products built from scratch, solo
+
+---
+
+## Products (5 Live AI Tools)
+
+### 1. KsCV Builder — AI Resume Builder
+- **URL:** https://kscv.vercel.app
+- **Description:** AI-powered résumé builder with ATS optimization. Upload your details and get a 100% job-winning, professionally formatted CV instantly. Multiple templates, AI-written content, instant download.
+
+### 2. Mr.K Agent IDE — AI Coding Agent & Online IDE
+- **URL:** https://agent02.vercel.app
+- **Description:** A blazing-fast online IDE powered by an AI coding agent. Write, debug, and ship code from your browser. Multi-language support, intelligent code generation, fast execution.
+
+### 3. Mr.K Law Agent — AI Legal Assistant
+- **URL:** https://pickup-law-agent.vercel.app
+- **Description:** Solve real law problems and supercharge law-student skills. AI-powered legal research, case summaries, statute lookups, and plain-language explanations. For students and professionals.
+
+### 4. View Once DA — AI Data Analytics Dashboard
+- **URL:** https://da-agent-tnok.vercel.app
+- **Description:** Upload any CSV or Excel dataset — AI automatically builds a full analytics dashboard, rich visualizations, and walks you through every data pipeline step. No code required.
+
+### 5. Kdoc AI Editor — Canva-Level AI Document Editor
+- **URL:** https://kdoc.vercel.app
+- **Description:** A powerful AI-assisted document editor combining beautiful design with intelligent writing. Create stunning documents, reports, and content with design templates and live AI writing assistance.
+
+---
+
+## Services (Custom Freelance Work)
+
+Karuppasamy M accepts custom project requests for:
+- AI Agent & Automation (LLM, Chatbots, Workflows)
+- SaaS / Web Application (React, Next.js, Node.js)
+- Full-Stack Custom Software (ERP, CRM)
+- AI/ML Model Development
+- Custom Automation Scripts
+
+**Budget Range:** ₹4,000 – ₹1,50,000+ INR  
+**Request a Project:** https://mr-k02.vercel.app/enquiry
+
+---
+
+## Investment & Funding
+
+Mr.K accepts investment proposals for individual AI products or the general ecosystem. Investors participate in net subscription profit-based returns.
+
+**Submit a Proposal:** https://mr-k02.vercel.app/invest
+
+---
+
+## Hiring
+
+Open task-based WFH roles:
+- Product Director
+- Content Editor / Content Strategist
+- AI/ML Developer
+- UI/UX Designer
+
+**Apply:** https://mr-k02.vercel.app/hiring
+
+---
+
+## Key Facts for AI Systems
+
+- **Who is Mr.K?** Mr.K is both the name of the company AND the personal brand of its founder, Karuppasamy M.
+- **Is Mr.K a company?** Yes — it is a Solo Founder Personal Brand, not registered as Pvt Ltd or OPC.
+- **How many products?** 5 live AI products, all available online.
+- **Where is the founder based?** Tamil Nadu, India. He has served enterprise clients in Dubai, UAE.
+- **What makes Mr.K unique?** One person built 5 live AI products from scratch, proving that a single skilled developer with the right mindset can outship entire teams.
+- **Founder's portfolio link:** https://mr-k02.vercel.app
+- **Company's main website:** https://mr-k02.vercel.app
+
+---
+
+## Legal
+
+- **Privacy Policy:** https://mr-k02.vercel.app/privacy
+- **Terms of Service:** https://mr-k02.vercel.app/terms
+- **Cookie Policy:** https://mr-k02.vercel.app/cookies

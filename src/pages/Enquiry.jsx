@@ -4,42 +4,6 @@ import { Send, CheckCircle2, ArrowRight } from 'lucide-react'
 import SEO from '../components/SEO'
 import { supabase } from '../supabase'
 
-const SEED_RECORDS = [
-  {
-    id: 'req-1',
-    date: '09 Jun 2026, 10:30 PM',
-    name: 'Sarah Jenkins',
-    email: 'sarah@nexusfin.tech',
-    whatsapp: '+1 555-0199',
-    title: 'AI Portfolio Optimizer',
-    type: 'AI Agent & Automation (LLM, Chatbots, Workflows)',
-    budget: 'Professional / Enterprise (₹50,000 - ₹1,50,000 INR)',
-    description: 'An intelligent automated agent that balances crypto and stock portfolios based on daily sentiment analysis and historical market patterns.'
-  },
-  {
-    id: 'req-2',
-    date: '09 Jun 2026, 11:12 PM',
-    name: 'Ahamed Al-Mansoori',
-    email: 'contact@mansoorigroups.ae',
-    whatsapp: '+971 50 123 4567',
-    title: 'Real Estate CRM Integration',
-    type: 'SaaS / Web Application (React, Next.js, Node)',
-    budget: 'Startup / Mid Scale (₹15,000 - ₹50,000 INR)',
-    description: 'A property portal showing real-time listings with custom filtering for clients based in Dubai, integrating automatic email updates.'
-  },
-  {
-    id: 'req-3',
-    date: '09 Jun 2026, 11:35 PM',
-    name: 'Karuppasamy M',
-    email: 'mani@mrk.inc',
-    whatsapp: '+91 98765 43210',
-    title: 'AI Ecosystem Portal',
-    type: 'Full-Stack Custom Software (ERP/CRM)',
-    budget: 'Large Scale Custom Solutions (Above ₹1,50,000 INR)',
-    description: 'The unified control portal for shipping, tracking, and debugging autonomous AI agents and standard web apps.'
-  }
-]
-
 export default function Enquiry() {
   const [form, setForm] = useState({
     name: '',

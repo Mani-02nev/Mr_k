@@ -3,9 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   GraduationCap, Briefcase, Building2, Globe2, Brain, Zap, Trophy,
   Target, Lock, Lightbulb, Handshake, Plane,
-  Eye, Compass, Flame, Star, CheckCircle2, TrendingUp, Users, Award
+  Eye, Compass, Flame, Star, CheckCircle2, TrendingUp, Users, Award,
+  ArrowUpRight, ExternalLink
 } from 'lucide-react'
-import founderImg from '../assets/founder.png'
+import founderImg from '../assets/founder-new.png'
 import SEO from '../components/SEO'
 
 const containerVariants = {
@@ -274,6 +275,43 @@ export default function About() {
                     <span className="founder-feature-ach-lbl">{a.lbl}</span>
                   </div>
                 ))}
+              </div>
+
+              {/* CTA Links */}
+              <div style={{ display: 'flex', gap: 12, marginTop: 36, flexWrap: 'wrap' }}>
+                <a
+                  href="https://mr-k02.vercel.app"
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 7,
+                    background: 'var(--gold)', color: '#000',
+                    fontWeight: 680, fontSize: 14, padding: '11px 20px',
+                    borderRadius: 'var(--r8)', letterSpacing: '-0.2px',
+                    textDecoration: 'none', transition: 'opacity 0.2s'
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
+                  onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+                >
+                  <ExternalLink size={14} /> Founder Portfolio
+                </a>
+                <a
+                  href="https://mr-k02.vercel.app"
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 7,
+                    background: 'rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.85)',
+                    border: '1px solid rgba(255,255,255,0.15)',
+                    fontWeight: 560, fontSize: 14, padding: '11px 20px',
+                    borderRadius: 'var(--r8)', letterSpacing: '-0.2px',
+                    textDecoration: 'none', transition: 'background 0.2s, border-color 0.2s'
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)' }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.07)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)' }}
+                >
+                  Mr.K Company Site <ArrowUpRight size={14} />
+                </a>
               </div>
             </motion.div>
           </div>

@@ -1,95 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Lock, LogOut, Download, Trash2, Search, Calendar, Mail, Tag, DollarSign, ExternalLink, Briefcase, Coins, Landmark } from 'lucide-react'
+import { Lock, LogOut, Download, Trash2, Search, Calendar, Mail, Tag, DollarSign, ExternalLink, Briefcase, Coins, Landmark, ArrowUpRight } from 'lucide-react'
 import { supabase } from '../supabase'
-
-const SEED_RECORDS = [
-  {
-    id: 'req-1',
-    date: '09 Jun 2026, 10:30 PM',
-    name: 'Sarah Jenkins',
-    email: 'sarah@nexusfin.tech',
-    whatsapp: '+1 555-0199',
-    title: 'AI Portfolio Optimizer',
-    type: 'AI Agent & Automation (LLM, Chatbots, Workflows)',
-    budget: 'Professional / Enterprise (₹50,000 - ₹1,50,000 INR)',
-    description: 'An intelligent automated agent that balances crypto and stock portfolios based on daily sentiment analysis and historical market patterns.'
-  },
-  {
-    id: 'req-2',
-    date: '09 Jun 2026, 11:12 PM',
-    name: 'Ahamed Al-Mansoori',
-    email: 'contact@mansoorigroups.ae',
-    whatsapp: '+971 50 123 4567',
-    title: 'Real Estate CRM Integration',
-    type: 'SaaS / Web Application (React, Next.js, Node)',
-    budget: 'Startup / Mid Scale (₹15,000 - ₹50,000 INR)',
-    description: 'A property portal showing real-time listings with custom filtering for clients based in Dubai, integrating automatic email updates.'
-  },
-  {
-    id: 'req-3',
-    date: '09 Jun 2026, 11:35 PM',
-    name: 'Karuppasamy M',
-    email: 'mani@mrk.inc',
-    whatsapp: '+91 98765 43210',
-    title: 'AI Ecosystem Portal',
-    type: 'Full-Stack Custom Software (ERP/CRM)',
-    budget: 'Large Scale Custom Solutions (Above ₹1,50,000 INR)',
-    description: 'The unified control portal for shipping, tracking, and debugging autonomous AI agents and standard web apps.'
-  }
-]
-
-const SEED_INVESTMENTS = [
-  {
-    id: 'inv-1',
-    date: '10 Jun 2026, 09:15 AM',
-    name: 'Rohan Sharma',
-    company: 'Capitalize Ventures',
-    email: 'rohan@capitalize.in',
-    whatsapp: '+91 99999 88888',
-    amount: 'Growth Funding (₹50,000 - ₹2,00,000 INR)',
-    target_product: 'KsCV Builder',
-    notes: 'Interested in funding the next major version of KsCV Builder. We can provide ₹1.5L in marketing capital for subscription profit-based returns over 12 months.'
-  },
-  {
-    id: 'inv-2',
-    date: '10 Jun 2026, 11:45 AM',
-    name: 'Lin Xia',
-    company: 'Apex Tech Singapore',
-    email: 'lin.xia@apextech.sg',
-    whatsapp: '+65 8123 4567',
-    amount: 'Enterprise Scale (Above ₹2,00,000 INR)',
-    target_product: 'Mr.K Agent IDE',
-    notes: 'We want to fund the premium subscription tier of the Agent IDE. We are prepared to invest ₹5L to expedite custom Docker sandboxes development for subscription profit-based returns.'
-  }
-]
-
-const SEED_HIRING = [
-  {
-    id: 'hire-1',
-    date: '10 Jun 2026, 02:00 PM',
-    name: 'Ganesh Kumar',
-    email: 'ganesh.kumar@outlook.com',
-    whatsapp: '+91 94444 55555',
-    role: 'Product Director',
-    portfolio: 'https://linkedin.com/in/ganesh-kumar',
-    education: 'B.E.',
-    resume: 'data:text/plain;base64,U2FtcGxlIFJlc3VtZSBDb250ZW50IEdhbmVzaCBJRA==',
-    description: '5+ years leading software product cycles. Focused on WFH task-based role to deliver high-quality design specs and feature roadmaps.'
-  },
-  {
-    id: 'hire-2',
-    date: '10 Jun 2026, 04:30 PM',
-    name: 'Ananya Rao',
-    email: 'ananya.rao@gmail.com',
-    whatsapp: '+91 98888 77777',
-    role: 'Editor / Content Strategist',
-    portfolio: 'https://ananya.medium.com',
-    education: 'Diploma',
-    resume: 'data:text/plain;base64,U2FtcGxlIFJlc3VtZSBDb250ZW50IEFuYW55YSBJRA==',
-    description: 'Content editor specializing in technical writing for AI developer tools. Excited about task-based pay model.'
-  }
-]
 
 export default function Admin() {
   const [password, setPassword] = useState('')
@@ -100,9 +12,9 @@ export default function Admin() {
   const [hiring, setHiring] = useState([])
   const [activeTab, setActiveTab] = useState('projects') // 'projects' | 'hiring' | 'investments'
   const [search, setSearch] = useState('')
-  const [syncStatus, setSyncStatus] = useState('checking') // 'checking' | 'online' | 'local'
+  const [syncStatus, setSyncStatus] = useState('checking') // 'checking' | 'online' | 'offline'
 
-  // Load records from Supabase with localStorage fallback
+  // Load records from Supabase directly without localStorage fallback
   const loadRecords = async () => {
     setSyncStatus('checking')
     try {
@@ -135,36 +47,11 @@ export default function Admin() {
       setHiring(hiringData || [])
       setSyncStatus('online')
     } catch (err) {
-      console.warn('Supabase fetch error, falling back to local records:', err)
-      
-      // Load enquiries fallback
-      const savedEnquiries = localStorage.getItem('mrk_enquiries')
-      let localEnquiries = savedEnquiries ? JSON.parse(savedEnquiries) : [...SEED_RECORDS]
-      const enquiriesWithTimestamps = localEnquiries.map((item, idx) => ({
-        ...item,
-        timestamp: item.timestamp || (Date.now() - idx * 3600000)
-      }))
-      setRecords(enquiriesWithTimestamps)
-
-      // Load investments fallback
-      const savedInvestments = localStorage.getItem('mrk_investments')
-      let localInvestments = savedInvestments ? JSON.parse(savedInvestments) : [...SEED_INVESTMENTS]
-      const investmentsWithTimestamps = localInvestments.map((item, idx) => ({
-        ...item,
-        timestamp: item.timestamp || (Date.now() - idx * 3600000)
-      }))
-      setInvestments(investmentsWithTimestamps)
-
-      // Load hiring fallback
-      const savedHiring = localStorage.getItem('mrk_hiring')
-      let localHiring = savedHiring ? JSON.parse(savedHiring) : [...SEED_HIRING]
-      const hiringWithTimestamps = localHiring.map((item, idx) => ({
-        ...item,
-        timestamp: item.timestamp || (Date.now() - idx * 3600000)
-      }))
-      setHiring(hiringWithTimestamps)
-
-      setSyncStatus('local')
+      console.error('Supabase fetch error:', err)
+      setRecords([])
+      setInvestments([])
+      setHiring([])
+      setSyncStatus('offline')
     }
   }
 
@@ -210,17 +97,14 @@ export default function Admin() {
           const { error } = await supabase.from('enquiries').delete().neq('id', '')
           if (error) throw error
           setRecords([])
-          localStorage.removeItem('mrk_enquiries')
         } else if (isHiring) {
           const { error } = await supabase.from('hiring').delete().neq('id', '')
           if (error) throw error
           setHiring([])
-          localStorage.removeItem('mrk_hiring')
         } else {
           const { error } = await supabase.from('investments').delete().neq('id', '')
           if (error) throw error
           setInvestments([])
-          localStorage.removeItem('mrk_investments')
         }
       } catch (e) {
         console.error('Supabase clear failed:', e)
@@ -410,9 +294,13 @@ export default function Admin() {
                       <span className="pill" style={{ background: 'rgba(52,199,89,0.1)', color: '#248a3d', border: '1px solid rgba(52,199,89,0.2)', fontSize: 11, padding: '4px 10px', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
                         ● Supabase Connected
                       </span>
+                    ) : syncStatus === 'checking' ? (
+                      <span className="pill" style={{ background: 'rgba(0,122,255,0.1)', color: '#007aff', border: '1px solid rgba(0,122,255,0.2)', fontSize: 11, padding: '4px 10px', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                        ● Connecting...
+                      </span>
                     ) : (
-                      <span className="pill" style={{ background: 'rgba(255,149,0,0.1)', color: '#b26a00', border: '1px solid rgba(255,149,0,0.2)', fontSize: 11, padding: '4px 10px', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                        ● Local Demo Mode
+                      <span className="pill" style={{ background: 'rgba(255,69,58,0.1)', color: 'var(--red)', border: '1px solid rgba(255,69,58,0.2)', fontSize: 11, padding: '4px 10px', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                        ● Connection Error
                       </span>
                     )}
                   </div>

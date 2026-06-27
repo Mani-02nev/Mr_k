@@ -5,65 +5,47 @@ export default function SEO({ title, description, keywords }) {
   const { pathname } = useLocation()
 
   useEffect(() => {
-    // 1. Update Title
-    const fullTitle = title ? `${title} | Mr.K AI` : 'Mr.K | AI Product Company'
+    const BASE_URL = 'https://mr-k02.vercel.app'
+    const currentUrl = `${BASE_URL}${pathname === '/' ? '' : pathname}`
+
+    // 1. Title
+    const fullTitle = title
+      ? `${title} | Mr.K AI — Karuppasamy M`
+      : 'Mr.K | AI Product Company — Built by Karuppasamy M'
     document.title = fullTitle
 
-    // 2. Update Meta Description
-    const metaDescription = document.querySelector('meta[name="description"]')
-    if (metaDescription) {
-      metaDescription.setAttribute(
-        'content',
-        description || 'Mr.K is a solo founder AI product company building intelligent, accessible, and purpose-driven tools for students, professionals, and businesses worldwide.'
-      )
+    // 2. Meta Description
+    const defaultDesc = 'Mr.K is a Solo Founder AI Product Company built by Karuppasamy M — AI/ML developer and Google Student Ambassador from Tamil Nadu, India. Building 5 live AI tools: KsCV Builder, Agent IDE, Law Agent, View Once DA, and Kdoc AI Editor.'
+    const setMeta = (selector, attr, val) => {
+      const el = document.querySelector(selector)
+      if (el) el.setAttribute(attr, val)
     }
 
-    // 3. Update Meta Keywords
-    const metaKeywords = document.querySelector('meta[name="keywords"]')
-    if (metaKeywords) {
-      metaKeywords.setAttribute(
-        'content',
-        keywords || 'Mr.K, AI, Resume Builder, Code Agent, Law Agent, Data Analytics, AI Editor, KsCV Builder, Mr.K Agent IDE, Law Agent, View Once DA, Kdoc Editor, Karuppasamy M'
-      )
+    setMeta('meta[name="description"]', 'content', description || defaultDesc)
+    setMeta('meta[name="keywords"]', 'content',
+      keywords || 'Mr.K, Karuppasamy M, AI Product Company, Solo Founder, KsCV Builder, Agent IDE, Law Agent, View Once DA, Kdoc Editor, Tamil Nadu AI Developer, Google Student Ambassador'
+    )
+    setMeta('meta[name="author"]', 'content', 'Karuppasamy M')
+
+    // 3. Open Graph
+    setMeta('meta[property="og:url"]', 'content', currentUrl)
+    setMeta('meta[property="og:title"]', 'content', fullTitle)
+    setMeta('meta[property="og:description"]', 'content', description || defaultDesc)
+
+    // 4. Twitter
+    setMeta('meta[name="twitter:url"]', 'content', currentUrl)
+    setMeta('meta[name="twitter:title"]', 'content', fullTitle)
+    setMeta('meta[name="twitter:description"]', 'content', description || defaultDesc)
+
+    // 5. Canonical
+    let canonicalLink = document.querySelector('link[rel="canonical"]')
+    if (!canonicalLink) {
+      canonicalLink = document.createElement('link')
+      canonicalLink.setAttribute('rel', 'canonical')
+      document.head.appendChild(canonicalLink)
     }
+    canonicalLink.setAttribute('href', currentUrl)
 
-    // 4. Update OpenGraph URL, Title, Description
-    const currentUrl = `https://mrk02.vercel.app${pathname === '/' ? '' : pathname}`
-    
-    const ogUrl = document.querySelector('meta[property="og:url"]')
-    if (ogUrl) ogUrl.setAttribute('content', currentUrl)
-
-    const ogTitle = document.querySelector('meta[property="og:title"]')
-    if (ogTitle) ogTitle.setAttribute('content', fullTitle)
-
-    const ogDesc = document.querySelector('meta[property="og:description"]')
-    if (ogDesc) {
-      ogDesc.setAttribute(
-        'content',
-        description || 'Building intelligent, lean, and purpose-driven AI products for students, professionals, and enterprises worldwide.'
-      )
-    }
-
-    // 5. Update Twitter URL, Title, Description
-    const twUrl = document.querySelector('meta[name="twitter:url"]')
-    if (twUrl) twUrl.setAttribute('content', currentUrl)
-
-    const twTitle = document.querySelector('meta[name="twitter:title"]')
-    if (twTitle) twTitle.setAttribute('content', fullTitle)
-
-    const twDesc = document.querySelector('meta[name="twitter:description"]')
-    if (twDesc) {
-      twDesc.setAttribute(
-        'content',
-        description || 'Building intelligent, lean, and purpose-driven AI products for students, professionals, and enterprises worldwide.'
-      )
-    }
-
-    // 6. Update Canonical URL
-    const canonicalLink = document.querySelector('link[rel="canonical"]')
-    if (canonicalLink) {
-      canonicalLink.setAttribute('href', currentUrl)
-    }
   }, [title, description, keywords, pathname])
 
   return null
