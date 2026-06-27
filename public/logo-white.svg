@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- Background -->
+  <rect width="512" height="512" rx="112" fill="#0A0A0C" />
+  <rect x="2" y="2" width="508" height="508" rx="110" stroke="#FFFFFF" stroke-width="1.5" stroke-opacity="0.1" />
+  <!-- Minimalist Geometric K Monogram with AI Connector -->
+  <!-- Vertical Pillar -->
+  <rect x="150" y="110" width="50" height="292" rx="25" fill="#FFFFFF" />
+  <!-- Top Diagonal Arm -->
+  <path d="M175 256 L332 118 C343 108 360 116 360 131 C360 140 356 148 349 154 L220 272 C210 281 195 281 185 272 Z" fill="#FFFFFF" />
+  <!-- Bottom Diagonal Arm -->
+  <path d="M185 240 L346 384 C355 392 360 404 360 416 C360 433 340 442 328 430 L175 256 Z" fill="#FFFFFF" />
+  <!-- AI Neural Node -->
+  <circle cx="370" cy="256" r="24" fill="#FFFFFF" />
+  <circle cx="370" cy="256" r="8" fill="#0A0A0C" />
+</svg>

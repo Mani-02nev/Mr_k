@@ -5,7 +5,7 @@ export default function SEO({ title, description, keywords }) {
   const { pathname } = useLocation()
 
   useEffect(() => {
-    const BASE_URL = 'https://mr-k02.vercel.app'
+    const BASE_URL = 'https://mrk02.vercel.app'
     const currentUrl = `${BASE_URL}${pathname === '/' ? '' : pathname}`
 
     // 1. Title

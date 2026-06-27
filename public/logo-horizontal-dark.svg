@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" fill="none">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE680" />
+      <stop offset="60%" stop-color="#F0B429" />
+      <stop offset="100%" stop-color="#B7791F" />
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="1200" height="400" rx="40" fill="#0A0A0C" />
+  <rect x="2" y="2" width="1196" height="396" rx="38" stroke="url(#goldGrad)" stroke-width="1.5" stroke-opacity="0.1" />
+
+  <!-- Logo Mark (left aligned) -->
+  <g transform="translate(100, 50) scale(0.585)">
+    <!-- Vertical Pillar -->
+    <rect x="150" y="110" width="50" height="292" rx="25" fill="url(#goldGrad)" />
+    <!-- Top Diagonal Arm -->
+    <path d="M175 256 L332 118 C343 108 360 116 360 131 C360 140 356 148 349 154 L220 272 C210 281 195 281 185 272 Z" fill="url(#goldGrad)" />
+    <!-- Bottom Diagonal Arm -->
+    <path d="M185 240 L346 384 C355 392 360 404 360 416 C360 433 340 442 328 430 L175 256 Z" fill="url(#goldGrad)" />
+    <!-- AI Neural Node -->
+    <circle cx="370" cy="256" r="24" fill="url(#goldGrad)" />
+    <circle cx="370" cy="256" r="8" fill="#0A0A0C" />
+  </g>
+
+  <!-- Typography -->
+  <text x="440" y="225" font-family="Inter, system-ui, sans-serif" font-size="108" font-weight="900" fill="#FFFFFF" letter-spacing="-3">Mr.K</text>
+  <text x="735" y="225" font-family="Inter, system-ui, sans-serif" font-size="108" font-weight="900" fill="url(#goldGrad)" letter-spacing="-3">AI</text>
+  <text x="445" y="285" font-family="Inter, system-ui, sans-serif" font-size="28" font-weight="600" fill="#FFE680" letter-spacing="4" opacity="0.8">PRODUCT COMPANY</text>
+</svg>

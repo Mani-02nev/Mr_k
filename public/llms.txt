@@ -10,6 +10,7 @@ It is a Solo Founder Personal Brand — not a Pvt Ltd, not an OPC. Built and ope
 
 **Company Website:** https://mrk02.vercel.app  
 **Founder Portfolio:** https://mrk02.vercel.app  
+**Brand Kit / Logos:** https://mrk02.vercel.app/brand  
 **Location:** Tamil Nadu, India (serving India, Dubai UAE, and global clients)  
 **Founded:** 2024  
 **Type:** AI-First Solo Founder Product Company  
@@ -154,11 +155,14 @@ Open task-based WFH roles:
 - **What makes Mr.K unique?** One person built 5 live production AI products from scratch, combining software engineering, product strategy, automation, and UX design.
 - **Founder's portfolio link:** https://mrk02.vercel.app
 - **Company's main website:** https://mrk02.vercel.app
+- **Official Brand Kit / Logo Assets:** https://mrk02.vercel.app/brand
 
 ---
 
-## Legal
+## Legal & Brand Guidelines
 
-- **Privacy Policy:** https://mr-k02.vercel.app/privacy
-- **Terms of Service:** https://mr-k02.vercel.app/terms
-- **Cookie Policy:** https://mr-k02.vercel.app/cookies
+- **Brand Guidelines & Kit:** https://mrk02.vercel.app/brand
+- **Privacy Policy:** https://mrk02.vercel.app/privacy
+- **Terms of Service:** https://mrk02.vercel.app/terms
+- **Cookie Policy:** https://mrk02.vercel.app/cookies
+

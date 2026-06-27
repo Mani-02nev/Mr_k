@@ -32,7 +32,8 @@ export default function Footer() {
               <li><NavLink to="/enquiry">Request Product</NavLink></li>
               <li><NavLink to="/invest">Invest &amp; Funding</NavLink></li>
               <li><NavLink to="/hiring">Hiring</NavLink></li>
-              <li><a href="https://mr-k02.vercel.app" target="_blank" rel="noreferrer">Founder Portfolio ↗</a></li>
+              <li><NavLink to="/brand">Brand Kit</NavLink></li>
+              <li><a href="https://mrk02.vercel.app" target="_blank" rel="noreferrer">Founder Portfolio ↗</a></li>
             </ul>
           </div>
 
@@ -47,7 +48,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bot">
-          <p>© 2026 Mr.K · Solo Founder AI Company · Founded by <a href="https://mr-k02.vercel.app" target="_blank" rel="noreferrer" style={{ color: 'var(--gold)', textDecoration: 'none', fontWeight: 600 }}>Karuppasamy M</a>, Tamil Nadu, India</p>
+          <p>© 2026 Mr.K · Solo Founder AI Company · Founded by <a href="https://mrk02.vercel.app" target="_blank" rel="noreferrer" style={{ color: 'var(--gold)', textDecoration: 'none', fontWeight: 600 }}>Karuppasamy M</a>, Tamil Nadu, India</p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', gap: '8px' }}>
               <a href="https://www.linkedin.com/in/karuppasamy-m02/" target="_blank" rel="noreferrer" className="footer-social-icon" aria-label="LinkedIn">

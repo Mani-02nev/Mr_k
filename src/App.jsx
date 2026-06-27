@@ -12,6 +12,7 @@ import Cookies from './pages/Cookies'
 import Enquiry from './pages/Enquiry'
 import Invest from './pages/Invest'
 import Admin from './pages/Admin'
+import Brand from './pages/Brand'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="/enquiry" element={<Enquiry />} />
           <Route path="/invest" element={<Invest />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/brand" element={<Brand />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/cookies" element={<Cookies />} />
@@ -42,3 +44,4 @@ export default function App() {
     </>
   )
 }
+

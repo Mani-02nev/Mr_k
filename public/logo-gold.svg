@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE680" />
+      <stop offset="60%" stop-color="#F0B429" />
+      <stop offset="100%" stop-color="#B7791F" />
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="512" height="512" rx="112" fill="#0A0A0C" />
+  <!-- Inner Border Glow -->
+  <rect x="2" y="2" width="508" height="508" rx="110" stroke="url(#goldGrad)" stroke-width="1.5" stroke-opacity="0.2" />
+  <!-- Glowing blur behind the monogram -->
+  <circle cx="256" cy="256" r="140" fill="url(#goldGrad)" opacity="0.08" filter="blur(40px)" />
+  <!-- Minimalist Geometric K Monogram with AI Connector -->
+  <!-- Vertical Pillar -->
+  <rect x="150" y="110" width="50" height="292" rx="25" fill="url(#goldGrad)" />
+  <!-- Top Diagonal Arm -->
+  <path d="M175 256 L332 118 C343 108 360 116 360 131 C360 140 356 148 349 154 L220 272 C210 281 195 281 185 272 Z" fill="url(#goldGrad)" />
+  <!-- Bottom Diagonal Arm -->
+  <path d="M185 240 L346 384 C355 392 360 404 360 416 C360 433 340 442 328 430 L175 256 Z" fill="url(#goldGrad)" />
+  <!-- AI Neural Node -->
+  <circle cx="370" cy="256" r="24" fill="url(#goldGrad)" />
+  <circle cx="370" cy="256" r="8" fill="#0A0A0C" />
+</svg>

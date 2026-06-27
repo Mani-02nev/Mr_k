@@ -25,7 +25,7 @@ User-agent: Googlebot
 Allow: /
 
 # Sitemap
-Sitemap: https://mr-k02.vercel.app/sitemap.xml
+Sitemap: https://mrk02.vercel.app/sitemap.xml
 
 # LLM Knowledge Base
-# https://mr-k02.vercel.app/llms.txt
+# https://mrk02.vercel.app/llms.txt

@@ -288,7 +288,7 @@ export default function About() {
               {/* CTA Links */}
               <div style={{ display: 'flex', gap: 12, marginTop: 36, flexWrap: 'wrap' }}>
                 <a
-                  href="https://mr-k02.vercel.app"
+                  href="https://mrk02.vercel.app"
                   target="_blank"
                   rel="noreferrer"
                   style={{
@@ -304,7 +304,7 @@ export default function About() {
                   <ExternalLink size={14} /> Founder Portfolio
                 </a>
                 <a
-                  href="https://mr-k02.vercel.app"
+                  href="https://mrk02.vercel.app"
                   target="_blank"
                   rel="noreferrer"
                   style={{
