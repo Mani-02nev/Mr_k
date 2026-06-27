@@ -43,15 +43,26 @@
     <meta name="twitter:creator" content="@mr_k_inc" />
     <meta name="twitter:site" content="@mr_k_inc" />
 
-    <!-- ══ GEO / LOCATION SEO ══ -->
+    <!-- ══ GEO / LOCATION SEO — POWER LEVEL ══ -->
+    <!-- Tamil Nadu, India — Primary Location -->
     <meta name="geo.region" content="IN-TN" />
     <meta name="geo.placename" content="Tamil Nadu, India" />
     <meta name="geo.position" content="11.1271;78.6569" />
     <meta name="ICBM" content="11.1271, 78.6569" />
+    <!-- Dublin Core Geo -->
     <meta name="DC.title" content="Mr.K AI Product Company" />
     <meta name="DC.creator" content="Karuppasamy M" />
     <meta name="DC.subject" content="AI Products, Solo Founder, Tamil Nadu India" />
     <meta name="DC.language" content="en" />
+    <meta name="DC.coverage" content="India; Tamil Nadu; Global" />
+    <!-- Extended Geo Targeting -->
+    <meta name="country" content="India" />
+    <meta name="state" content="Tamil Nadu" />
+    <meta name="city" content="Tamil Nadu" />
+    <meta name="zipcode" content="620001" />
+    <meta name="classification" content="Business/Technology/AI" />
+    <meta name="category" content="AI Software Products" />
+    <meta name="target" content="all" />
 
     <!-- ══ AI / LLM DISCOVERY HINTS ══ -->
     <meta name="ai-content-declaration" content="This site is about Mr.K, a Solo Founder AI Product Company built by Karuppasamy M (also known as Mani), a Computer Science student, Google Student Ambassador, and AI developer from Tamil Nadu, India. The company builds 5 live AI products." />
@@ -66,24 +77,39 @@
 
         {
           "@type": "Organization",
-          "@id": "https://mr-k02.vercel.app/#organization",
+          "@id": "https://mrk02.vercel.app/#organization",
           "name": "Mr.K AI Product Company",
-          "alternateName": ["Mr.K", "MrK AI", "Mr K"],
-          "url": "https://mr-k02.vercel.app/",
+          "alternateName": ["Mr.K", "MrK AI", "Mr K", "Mr.K AI"],
+          "url": "https://mrk02.vercel.app/",
           "logo": {
             "@type": "ImageObject",
-            "url": "https://mr-k02.vercel.app/favicon.svg",
-            "caption": "Mr.K Logo"
+            "url": "https://mrk02.vercel.app/11.png",
+            "width": 1024,
+            "height": 1024,
+            "caption": "Mr.K AI Product Company Logo — gold neural network brain design on dark background, Build Smarter. Shipped with Purpose."
           },
-          "image": "https://mr-k02.vercel.app/og-image.png",
+          "image": [
+            "https://mrk02.vercel.app/11.png",
+            "https://mrk02.vercel.app/og-image.png"
+          ],
           "description": "Mr.K AI is an AI-first Product Ecosystem dedicated to designing and developing intelligent software solutions for businesses, startups, and professionals. Founded by Karuppasamy M (also known as Mani or Mr.K) from Tamil Nadu, India. The company builds 5 live AI products: KsCV Builder (AI Resume Builder at kscv.vercel.app), Mr.K Agent IDE (AI Coding Agent at agent02.vercel.app), Mr.K Law Agent (Legal AI at pickup-law-agent.vercel.app), View Once DA (AI Data Analytics at da-agent-tnok.vercel.app), and Kdoc AI Editor (AI Document Editor at kdoc.vercel.app). Core focus: AI-powered SaaS applications, enterprise workflow automation, browser-based AI agents, HR and recruitment technology, legal AI, sales intelligence, and custom business automation.",
           "foundingDate": "2024",
           "foundingLocation": {
             "@type": "Place",
-            "name": "Tamil Nadu, India"
+            "name": "Tamil Nadu, India",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 11.1271,
+              "longitude": 78.6569
+            }
           },
           "email": "karuppasamy.murugesan02@gmail.com",
-          "areaServed": ["India", "UAE", "Global"],
+          "areaServed": [
+            { "@type": "Country", "name": "India" },
+            { "@type": "Country", "name": "United Arab Emirates" },
+            { "@type": "AdministrativeArea", "name": "Tamil Nadu" },
+            { "@type": "AdministrativeArea", "name": "Global" }
+          ],
           "numberOfEmployees": {
             "@type": "QuantitativeValue",
             "value": 1
@@ -93,10 +119,11 @@
           "sameAs": [
             "https://www.linkedin.com/in/karuppasamy-m02/",
             "https://www.instagram.com/mr_k.inc/",
+            "https://mrk02.vercel.app",
             "https://mr-k02.vercel.app"
           ],
           "founder": {
-            "@id": "https://mr-k02.vercel.app/#founder"
+            "@id": "https://mrk02.vercel.app/#founder"
           },
           "hasOfferCatalog": {
             "@type": "OfferCatalog",
@@ -170,14 +197,14 @@
               "url": "https://mrk02.vercel.app/founder.png",
               "width": 960,
               "height": 1280,
-              "caption": "Karuppasamy M — Founder of Mr.K AI, wearing black blazer and white shirt, professional portrait photo, Tamil Nadu, India"
+              "caption": "Karuppasamy M — Founder & CEO of Mr.K AI, professional portrait, black blazer, white shirt, curly black hair, white studio background"
             },
             {
               "@type": "ImageObject",
               "url": "https://mrk02.vercel.app/1.png",
-              "width": 800,
-              "height": 600,
-              "caption": "Karuppasamy M — Mr.K AI Founder, casual outdoor photo"
+              "width": 400,
+              "height": 300,
+              "caption": "Karuppasamy M — Mr.K AI Founder, casual outdoor photo, green t-shirt, sunglasses, nature background, Tamil Nadu"
             }
           ],
           "jobTitle": "Solo Founder & AI/ML Developer",

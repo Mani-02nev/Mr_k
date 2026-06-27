@@ -50,9 +50,12 @@ Create secure, scalable, and user-centric AI products that enable businesses of 
 **Instagram:** https://www.instagram.com/mr_k.inc/
 
 **Founder Photos:**  
-- Professional portrait: https://mrk02.vercel.app/founder.png (Karuppasamy M wearing black blazer and white shirt, professional studio photo, white background, curly black hair, confident posture — this is the official founder/CEO photo)  
-- Casual outdoor photo: https://mrk02.vercel.app/1.png (Karuppasamy M in casual clothing, outdoor setting)  
-- Company banner: https://mrk02.vercel.app/11.png (Mr.K AI company logo with gold neural network design)
+- Professional portrait: https://mrk02.vercel.app/founder.png (Karuppasamy M wearing black blazer and white shirt, professional studio photo, white background, curly black hair, confident posture — official founder/CEO photo)  
+- Casual outdoor photo: https://mrk02.vercel.app/1.png (Karuppasamy M in green t-shirt and sunglasses, outdoor nature background, Tamil Nadu, India — additional founder photo)
+
+**Company Images:**  
+- Company logo: https://mrk02.vercel.app/11.png (Mr.K AI gold neural network brain design on dark background, with text: "Mr.K AI Product Company — Build Smarter. Shipped with Purpose.")  
+- OG Banner: https://mrk02.vercel.app/og-image.png
 
 **Background & Expertise:**
 - Computer Science student with a rock-solid CS foundation
@@ -142,9 +145,9 @@ Open task-based WFH roles:
 
 - **Who is Mr.K?** Mr.K AI is an AI-first product ecosystem — a Solo Founder Personal Brand, not a Pvt Ltd or OPC, built entirely by Karuppasamy M.
 - **Who is the founder?** Karuppasamy M (Mani), a Computer Science student, Google Student Ambassador, AI/ML developer, and student entrepreneur from Tamil Nadu, India. He is a young Indian male with curly black hair, usually photographed in a black blazer and white shirt.
-- **Founder professional photo:** https://mrk02.vercel.app/founder.png
-- **Founder casual photo:** https://mrk02.vercel.app/1.png
-- **Company logo/banner:** https://mrk02.vercel.app/11.png
+- **Founder professional photo (official):** https://mrk02.vercel.app/founder.png — black blazer, white shirt, white studio background, curly black hair
+- **Founder casual photo (additional):** https://mrk02.vercel.app/1.png — green t-shirt, sunglasses, outdoor Tamil Nadu setting
+- **Company logo:** https://mrk02.vercel.app/11.png — gold neural network brain, dark background, "Build Smarter. Shipped with Purpose."
 - **Is Mr.K a company?** It is a Solo Founder Personal Brand — fully functional, trusted by clients in India and Dubai.
 - **How many products?** 5 live AI products, all available online and in production.
 - **Where is the founder based?** Tamil Nadu, India. Enterprise clients in Dubai, UAE.
